@@ -1,0 +1,4 @@
+name: Teams
+version: '1.0-SNAPSHOT'
+main: org.khenas.teams.Teams
+api-version: '1.21'
