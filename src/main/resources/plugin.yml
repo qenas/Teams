@@ -2,3 +2,9 @@ name: Teams
 version: '1.0-SNAPSHOT'
 main: org.khenas.teams.Teams
 api-version: '1.21'
+commands:
+  create:
+    description: "Create a team, the leader will be the command sender."
+    usage: "/create"
+    permission: teams.command.create
+    permission-message: "You do not have permission to use this command."
