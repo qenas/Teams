@@ -10,14 +10,16 @@ import org.khenas.teams.parts.Team;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class TeamList {
     private static String sectionKey = "team-list";
     private static File file;
     private static FileConfiguration customFile;
-    private Map<String, Team> teamMap = new HashMap<>();
+    private static Map<String, Team> teamMap = new HashMap<>();
 
     //finds or generates the configuration file
     public static void setup(){
@@ -35,20 +37,54 @@ public class TeamList {
         customFile = YamlConfiguration.loadConfiguration(file);
     }
 
+    private void loadTeams(){
+        teamMap.clear();
+        if(customFile.contains(sectionKey)){
+            ConfigurationSection section = customFile.getConfigurationSection(sectionKey); //read the .yml file -> get the "team-list" section
+            for(String teamName : section.getKeys(false)){
+                ConfigurationSection teamSection = section.getConfigurationSection(teamName); // team-list -> [team1, team2, ...] (subsections)
+                Team team = new Team(teamName);
+                ArrayList<String> memberName = (ArrayList<String>) teamSection.getStringList("members");
+                for(int i = 0; i < memberName.size(); i++) {
+                    Player player = Bukkit.getPlayer(memberName.get(i));
+                    if (player != null) {
+                        team.addMember(player);
+                    }
+                }
+                String leaderName = teamSection.getString("leader");
+                if(leaderName != null){
+                    Player leader = Bukkit.getPlayer(leaderName);
+                    team.setLeader(leader);
+                }
+                teamMap.put(teamName, team);
+            }
+        }
+    }
+
     public static void addTeamToTheList(Player player, String teamName){
         try {
             customFile.load(file);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if(!customFile.contains("team-list." + teamName)){
-            getCustomFile().createSection("team-list." + teamName);
+        if(!customFile.contains(sectionKey + "." + teamName)){
+            ConfigurationSection teamSection = customFile.createSection(sectionKey + "." + teamName); //read the .yml file -> get the "team-list" section
+            teamSection.set("leader", player.getName()); //create a subsection on "team-list" named leader
+            teamSection.set("members", new ArrayList<String>().add(player.getName())); //create a subsection on "team-list" named members
+            Team team = new Team(teamName);
+            team.setLeader(player);
+            team.addMember(player);
+            teamMap.put(teamName, team);
             player.sendMessage(ChatColor.GREEN + "Team has been created successfully.");
             player.sendMessage("Team created. The leader are -" + ChatColor.AQUA + player.getName());
         } else {
             player.sendMessage(ChatColor.RED + "Unavailable team name. Try with another name.");
         }
         reloadCustomFile();
+    }
+
+    public static Team getTeam(String teamName){
+        return teamMap.get(teamName);
     }
 
     public static FileConfiguration getCustomFile(){
