@@ -7,13 +7,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.khenas.teams.parts.Team;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+
 
 public class TeamList {
     private static String sectionKey = "team-list";
@@ -67,10 +66,21 @@ public class TeamList {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if(!customFile.contains(sectionKey + "." + teamName)){
+        //comparing teamname on the list, following case
+        ConfigurationSection teamList = customFile.getConfigurationSection(sectionKey);
+        boolean teamExists = false;
+        for(String existingTeam : teamList.getKeys(false)){
+            if(existingTeam.equalsIgnoreCase(teamName)){
+                teamExists = true;
+                break;
+            }
+        }
+        if(!teamExists){ //if the team does not exist, this will create a new subsection for it.
             ConfigurationSection teamSection = customFile.createSection(sectionKey + "." + teamName); //read the .yml file -> get the "team-list" section
             teamSection.set("leader", player.getName()); //create a subsection on "team-list" named leader
-            teamSection.set("members", new ArrayList<String>().add(player.getName())); //create a subsection on "team-list" named members
+            ArrayList<String> members = new ArrayList<>();
+            members.add(player.getName());
+            teamSection.set("members", members); //create a subsection on "team-list" named members
             Team team = new Team(teamName);
             team.setLeader(player);
             team.addMember(player);

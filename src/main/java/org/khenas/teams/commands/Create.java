@@ -19,10 +19,11 @@ public class Create implements CommandExecutor {
             return true;
         }
         Player player = (Player) commandSender;
-        String teamName = strings[0];
-        if(teamName.isEmpty()){
+
+        if(strings[0].isEmpty()){
             player.sendMessage("Invalid name or null name. Please, write a name valid name for you team.");
         } else {
+            String teamName = strings[0];
             TeamList.addTeamToTheList(player, teamName);
         }
         return true;

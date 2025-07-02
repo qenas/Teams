@@ -18,8 +18,8 @@ public class Team {
         return members.size();
     }
 
-    public void setLeader(Player player){
-        leader = player;
+    public void setLeader(Player leader){
+        this.leader = leader;
     }
 
     public void addMember(Player newMember){
