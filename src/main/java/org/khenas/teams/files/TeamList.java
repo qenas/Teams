@@ -34,9 +34,10 @@ public class TeamList {
             }
         }
         customFile = YamlConfiguration.loadConfiguration(file);
+        loadTeams();
     }
 
-    private void loadTeams(){
+    private static void loadTeams(){
         teamMap.clear();
         if(customFile.contains(sectionKey)){
             ConfigurationSection section = customFile.getConfigurationSection(sectionKey); //read the .yml file -> get the "team-list" section
@@ -58,6 +59,10 @@ public class TeamList {
                 teamMap.put(teamName, team);
             }
         }
+    }
+
+    public static Map<String, Team> getTeamMap(){
+        return teamMap;
     }
 
     public static void addTeamToTheList(Player player, String teamName){

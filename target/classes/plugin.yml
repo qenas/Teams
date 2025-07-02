@@ -8,3 +8,8 @@ commands:
     usage: "/create [teamname]"
     permission: teams.command.create
     permission-message: "You do not have permission to use this command."
+  list:
+    description: "Show all the team in a list format."
+    usage:  "/list"
+    permission: teams.command.list
+    permission-message: "You do not have permission to use this command."

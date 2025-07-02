@@ -2,12 +2,15 @@ package org.khenas.teams;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.khenas.teams.commands.Create;
+import org.khenas.teams.commands.List;
 import org.khenas.teams.files.TeamList;
 
 public final class Teams extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        //commands
+        getCommand("list").setExecutor(new List());
         getCommand("create").setExecutor(new Create());
         //setup default config.yml
         getConfig().options().copyDefaults();

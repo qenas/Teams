@@ -1,14 +1,17 @@
 package org.khenas.teams.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.khenas.teams.files.TeamList;
+import org.khenas.teams.parts.Team;
 
+import java.util.ArrayList;
 
-public class Create implements CommandExecutor {
+public class List implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
@@ -17,12 +20,10 @@ public class Create implements CommandExecutor {
             return true;
         }
         Player player = (Player) commandSender;
-
-        if(strings[0].isEmpty()){
-            player.sendMessage("Invalid name or null name. Please, write a name valid name for you team.");
-        } else {
-            String teamName = strings[0];
-            TeamList.addTeamToTheList(player, teamName);
+        ArrayList<Team> teamList = new ArrayList<>(TeamList.getTeamMap().values());
+        player.sendMessage(ChatColor.RED + "-----TEAM LIST-----");
+        for(int i = 0; i < teamList.size(); i++){
+            player.sendMessage(teamList.get(i).getTeamName());
         }
         return true;
     }

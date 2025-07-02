@@ -26,6 +26,10 @@ public class Team {
         members.add(newMember);
     }
 
+    public String getTeamName(){
+        return teamName;
+    }
+
 
 
 
