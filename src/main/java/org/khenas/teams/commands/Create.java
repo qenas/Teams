@@ -4,7 +4,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Team;
 import org.jetbrains.annotations.NotNull;
+import org.khenas.teams.files.TeamList;
 
 import java.util.ArrayList;
 
@@ -21,10 +23,7 @@ public class Create implements CommandExecutor {
         if(teamName.isEmpty()){
             player.sendMessage("Invalid name or null name. Please, write a name valid name for you team.");
         } else {
-            ArrayList<Player> teamList = new ArrayList<>();
-            teamList.add(player);
-            commandSender.sendMessage("Team created. The leader are -" + player.getName());
-            System.out.println(teamList);
+            TeamList.addTeamToTheList(player, teamName);
         }
         return true;
     }

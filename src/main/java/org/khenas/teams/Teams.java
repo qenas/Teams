@@ -14,13 +14,12 @@ public final class Teams extends JavaPlugin {
         saveDefaultConfig();
         //setup teamlist
         TeamList.setup();
-        TeamList.getCustomFile().addDefault("team-list", "");
-        TeamList.getCustomFile().options().copyDefaults(true);
         TeamList.saveCustomFile();
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        TeamList.saveCustomFile();
     }
 }
