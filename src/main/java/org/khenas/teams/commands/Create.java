@@ -17,9 +17,15 @@ public class Create implements CommandExecutor {
             return true;
         }
         Player player = (Player) commandSender;
-        ArrayList<Player> teamList = new ArrayList<Player>();
-        teamList.add(player);
-        commandSender.sendMessage("Team created. The leader are -" + player.getName());
-        return false;
+        String teamName = strings[0];
+        if(teamName.isEmpty()){
+            player.sendMessage("Invalid name or null name. Please, write a name valid name for you team.");
+        } else {
+            ArrayList<Player> teamList = new ArrayList<>();
+            teamList.add(player);
+            commandSender.sendMessage("Team created. The leader are -" + player.getName());
+            System.out.println(teamList);
+        }
+        return true;
     }
 }
