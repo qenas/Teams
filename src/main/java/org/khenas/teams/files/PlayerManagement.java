@@ -12,10 +12,10 @@ public class PlayerManagement  {
     public static void loadPlayers(){
         ArrayList<Team> teamList = new ArrayList<>(TeamList.getTeamMap().values());
         for (Team team : teamList) {
-            ArrayList<Player> teamMembers = new ArrayList<>(team.getMembers());
-            for (Player member : teamMembers) {
-                Member player = new Member(team, member);
-                member.sendMessage("Hola");
+            ArrayList<Member> teamMembers = new ArrayList<>(team.getMembers());
+            for (Member member : teamMembers) {
+                Player player = member.getPlayer();
+                player.sendMessage("Hola");
             }
         }
 

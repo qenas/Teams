@@ -30,7 +30,7 @@ public class Team {
         return teamName;
     }
 
-    public ArrayList<Player> getMembers(){
+    public ArrayList<Member> getMembers(){
         return members;
     }
 

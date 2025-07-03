@@ -23,6 +23,10 @@ public class Member implements Listener {
         this.player = player;
     }
 
+    public Player getPlayer(){
+        return player;
+    }
+
     public Team getTeam(){
         return team;
     }

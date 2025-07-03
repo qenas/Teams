@@ -1,8 +1,4 @@
 org\khenas\teams\commands\List.class
 org\khenas\teams\Teams.class
-org\khenas\teams\parts\Member.class
-org\khenas\teams\parts\Team.class
-org\khenas\teams\files\PlayerManagement.class
 org\khenas\teams\commands\Create.class
 org\khenas\teams\events\PlayerListener.class
-org\khenas\teams\files\TeamList.class
