@@ -2,6 +2,7 @@ package org.khenas.teams.files;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 
 public class TeamList {
@@ -45,13 +47,12 @@ public class TeamList {
             for(String teamName : section.getKeys(false)){
                 ConfigurationSection teamSection = section.getConfigurationSection(teamName); // team-list -> [team1, team2, ...] (subsections)
                 Team team = new Team(teamName);
-                ArrayList<String> memberName = (ArrayList<String>) teamSection.getStringList("members");
-                for(int i = 0; i < memberName.size(); i++) {
-                    Player player = Bukkit.getPlayer(memberName.get(i));
-                    if (player != null) {
-                        Member newMember = new Member(team, player);
-                        team.addMember(newMember);
-                    }
+                ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
+                for(int i = 0; i < memberUUIDs.size(); i++) {
+                    UUID uuid = UUID.fromString(memberUUIDs.get(i));
+                    OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+                    Member newMember = new Member(team, player);
+                    team.addMember(newMember);
                 }
                 String leaderName = teamSection.getString("leader");
                 if(leaderName != null){
@@ -85,9 +86,9 @@ public class TeamList {
         }
         if(!teamExists){ //if the team does not exist, this will create a new subsection for it.
             ConfigurationSection teamSection = customFile.createSection(sectionKey + "." + teamName); //read the .yml file -> get the "team-list" section
-            teamSection.set("leader", player.getName()); //create a subsection on "team-list" named leader
-            ArrayList<String> members = new ArrayList<>();
-            members.add(player.getName());
+            teamSection.set("leader", player.getUniqueId()); //create a subsection on "team-list" named leader
+            ArrayList<UUID> members = new ArrayList<>();
+            members.add(player.getUniqueId());
             teamSection.set("members", members); //create a subsection on "team-list" named members
             Team team = new Team(teamName);
             team.setLeader(player);

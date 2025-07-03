@@ -1,6 +1,7 @@
 package org.khenas.teams.files;
 
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
@@ -14,8 +15,8 @@ public class PlayerManagement  {
         for (Team team : teamList) {
             ArrayList<Member> teamMembers = new ArrayList<>(team.getMembers());
             for (Member member : teamMembers) {
-                Player player = member.getPlayer();
-                player.sendMessage("Hola");
+                OfflinePlayer player = member.getPlayer();
+                System.out.println("Member created: " + player.getName());
             }
         }
 
