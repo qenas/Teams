@@ -17,9 +17,14 @@ public class MyTeam implements CommandExecutor {
             sender.sendMessage("Command only available for real players.");
             return true;
         }
-        Member player = Team.getMemberByUUID(((Player) sender).getPlayer());
-        Player p = (Player) sender;
-        p.sendMessage(ChatColor.WHITE + "You are on the " + ChatColor.BOLD+ ChatColor.RED + player.getTeam().getTeamName());
+        Player p = (Player) sender; //cast the CommandSender to a Player
+        Member player = Team.getMemberByUUID(p); //converts the Player to a Member type by his UUID
+        if(player != null){ //if the player form part of a team
+            Team playerTeam = player.getTeam();
+            p.sendMessage(ChatColor.WHITE + "You are on the " + ChatColor.BOLD+ ChatColor.RED + playerTeam.getTeamName());
+        } else {
+            p.sendMessage("You do not have a team, homie.");
+        }
         return true;
     }
 }

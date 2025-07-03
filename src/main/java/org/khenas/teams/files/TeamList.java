@@ -30,7 +30,8 @@ public class TeamList {
             try{
                 file.createNewFile();
                 customFile = YamlConfiguration.loadConfiguration(file);
-                getCustomFile().createSection("team-list");
+                getCustomFile().createSection(sectionKey);
+                createNoTeam(); //creates a team for the people who have no team
                 saveCustomFile();
             } catch (IOException e) {
                 System.out.println(e);
@@ -62,10 +63,28 @@ public class TeamList {
                 teamMap.put(teamName, team);
             }
         }
+        reloadCustomFile();
     }
 
     public static Map<String, Team> getTeamMap(){
         return teamMap;
+    }
+
+    private static void createNoTeam(){
+        try {
+            customFile.load(file);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if(customFile.contains(sectionKey)){
+            ConfigurationSection noTeamSection = customFile.createSection(sectionKey + ".no-team");
+            noTeamSection.set("leader", "no-body");
+            ArrayList<String> membersWithoutTeam = new ArrayList<>();
+            noTeamSection.set("members", membersWithoutTeam);
+            Team noTeam = new Team("no-team");
+            noTeam.setLeader(null);
+            teamMap.put("no-team", noTeam); //loads the 'no-team' to the archive
+        }
     }
 
     public static void addTeamToTheList(Player player, String teamName){
@@ -102,8 +121,28 @@ public class TeamList {
         reloadCustomFile();
     }
 
+    public static boolean isOnTeam(Player player){
+        boolean playerHasTeam = false;
+        String playerUUID = player.getUniqueId().toString();
+        if(customFile.contains(sectionKey)){
+            ConfigurationSection noTeamSection = customFile.getConfigurationSection(sectionKey + ".no-team"); //read the .yml file -> get the "no-team" section
+            ArrayList<String> membersWithOutTeamUUIDs = (ArrayList<String>) noTeamSection.getStringList("members");
+            for(int i = 0; i < membersWithOutTeamUUIDs.size(); i++){
+                if(playerUUID.equals(membersWithOutTeamUUIDs.get(i))){
+                    playerHasTeam = true;
+                    break;
+                }
+            }
+        }
+        return playerHasTeam;
+    }
+
     public static Team getTeam(String teamName){
         return teamMap.get(teamName);
+    }
+
+    public static Team getNoTeam(){
+        return teamMap.get("no-team");
     }
 
     public static FileConfiguration getCustomFile(){

@@ -1,4 +1,5 @@
 org\khenas\teams\commands\MyTeam.class
+org\khenas\teams\events\PlayerJoin.class
 org\khenas\teams\commands\List.class
 org\khenas\teams\Teams.class
 org\khenas\teams\parts\Member.class
