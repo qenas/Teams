@@ -15,10 +15,10 @@ import java.util.Map;
 
 
 public class TeamList {
-    private static String sectionKey = "team-list";
+    private static final String sectionKey = "team-list";
     private static File file;
     private static FileConfiguration customFile;
-    private static Map<String, Team> teamMap = new HashMap<>();
+    private static final Map<String, Team> teamMap = new HashMap<>();
 
     //finds or generates the configuration file
     public static void setup(){

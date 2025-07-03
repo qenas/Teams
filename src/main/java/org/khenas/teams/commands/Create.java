@@ -18,7 +18,7 @@ public class Create implements CommandExecutor {
         }
         Player player = (Player) commandSender;
 
-        if(strings[0].isEmpty()){
+        if(strings.length == 0){
             player.sendMessage("Invalid name or null name. Please, write a name valid name for you team.");
         } else {
             String teamName = strings[0];
