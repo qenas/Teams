@@ -62,7 +62,6 @@ public class TeamList {
                 teamMap.put(teamName, team);
             }
         }
-        PlayerManagement.loadPlayers();
     }
 
     public static Map<String, Team> getTeamMap(){
@@ -86,9 +85,9 @@ public class TeamList {
         }
         if(!teamExists){ //if the team does not exist, this will create a new subsection for it.
             ConfigurationSection teamSection = customFile.createSection(sectionKey + "." + teamName); //read the .yml file -> get the "team-list" section
-            teamSection.set("leader", player.getUniqueId()); //create a subsection on "team-list" named leader
-            ArrayList<UUID> members = new ArrayList<>();
-            members.add(player.getUniqueId());
+            teamSection.set("leader", player.getUniqueId().toString()); //create a subsection on "team-list" named leader
+            ArrayList<String> members = new ArrayList<>();
+            members.add(player.getUniqueId().toString());
             teamSection.set("members", members); //create a subsection on "team-list" named members
             Team team = new Team(teamName);
             team.setLeader(player);

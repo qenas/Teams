@@ -1,6 +1,5 @@
 package org.khenas.teams.parts;
 
-import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -31,6 +30,8 @@ public class Member implements Listener {
     public Team getTeam(){
         return team;
     }
+
+
 
     public boolean isOnTheSameTeam(Member player){
         return team.getTeamName().equals(player.getTeam().getTeamName());

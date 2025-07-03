@@ -13,3 +13,8 @@ commands:
     usage:  "/list"
     permission: teams.command.list
     permission-message: "You do not have permission to use this command."
+  myteam:
+    description: "Show the team of the invocator's command"
+    usager: "/myteam"
+    permission: teams.command.myteam
+    permission-message: "You do not have permission to use this command."

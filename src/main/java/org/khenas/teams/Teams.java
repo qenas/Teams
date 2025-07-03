@@ -3,18 +3,19 @@ package org.khenas.teams;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.khenas.teams.commands.Create;
 import org.khenas.teams.commands.List;
+import org.khenas.teams.commands.MyTeam;
 import org.khenas.teams.files.TeamList;
-import org.khenas.teams.parts.Member;
 
 public final class Teams extends JavaPlugin {
 
     @Override
     public void onEnable() {
         //events
-        getServer().getPluginManager().registerEvents(new Member(), this);
+
         //commands
         getCommand("list").setExecutor(new List());
         getCommand("create").setExecutor(new Create());
+        getCommand("myteam").setExecutor(new MyTeam());
         //setup default config.yml
         getConfig().options().copyDefaults();
         saveDefaultConfig();

@@ -1,12 +1,15 @@
 package org.khenas.teams.parts;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.nio.channels.MembershipKey;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Team {
     private String teamName;
     private Player leader;
-    private ArrayList<Member> members;
+    private static ArrayList<Member> members;
 
     //new team
     public Team(String teamName){
@@ -30,11 +33,21 @@ public class Team {
         return teamName;
     }
 
+    public static Member getMemberByUUID(Player player){
+        String playerUUID = player.getUniqueId().toString();
+        for(int i = 0; i < members.size(); i++){
+            OfflinePlayer memberPlayer = members.get(i).getPlayer();
+            String memberUUID = memberPlayer.getUniqueId().toString();
+            if(playerUUID.equals(memberUUID)){
+                return members.get(i);
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Member> getMembers(){
         return members;
     }
-
-
 
 
 }
