@@ -4,6 +4,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.khenas.teams.commands.Create;
 import org.khenas.teams.commands.List;
 import org.khenas.teams.commands.MyTeam;
+import org.khenas.teams.events.PlayerJoin;
 import org.khenas.teams.files.TeamList;
 
 public final class Teams extends JavaPlugin {
@@ -11,7 +12,7 @@ public final class Teams extends JavaPlugin {
     @Override
     public void onEnable() {
         //events
-
+        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
         //commands
         getCommand("list").setExecutor(new List());
         getCommand("create").setExecutor(new Create());

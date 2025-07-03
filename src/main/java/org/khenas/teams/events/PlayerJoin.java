@@ -18,8 +18,8 @@ public class PlayerJoin implements Listener {
             Member playerMember = Team.getMemberByUUID(player);
             player.sendMessage("Your team is: " + ChatColor.RED + playerMember.getTeam().getTeamName());
         } else {
-            Member noMember = new Member(TeamList.getNoTeam(), player);
-            TeamList.getNoTeam().addMember(noMember);
+           TeamList.addToTheNoTeam(player);
+            System.out.println(player.getName() + " added to the 'no-team' list.");
         }
 
     }

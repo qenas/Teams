@@ -31,8 +31,11 @@ public class TeamList {
                 file.createNewFile();
                 customFile = YamlConfiguration.loadConfiguration(file);
                 getCustomFile().createSection(sectionKey);
-                createNoTeam(); //creates a team for the people who have no team
                 saveCustomFile();
+                if(!customFile.contains(sectionKey + ".no-team")){
+                    System.out.println("No-team section does not exist. Creating it...");
+                    createNoTeam(); //creates a team for the people who have no team
+                }
             } catch (IOException e) {
                 System.out.println(e);
             }
@@ -76,15 +79,32 @@ public class TeamList {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if(customFile.contains(sectionKey)){
-            ConfigurationSection noTeamSection = customFile.createSection(sectionKey + ".no-team");
-            noTeamSection.set("leader", "no-body");
-            ArrayList<String> membersWithoutTeam = new ArrayList<>();
-            noTeamSection.set("members", membersWithoutTeam);
-            Team noTeam = new Team("no-team");
-            noTeam.setLeader(null);
-            teamMap.put("no-team", noTeam); //loads the 'no-team' to the archive
+        ConfigurationSection noTeamSection = customFile.createSection(sectionKey + ".no-team");
+        noTeamSection.set("leader", "no-body");
+        ArrayList<String> membersWithoutTeam = new ArrayList<>();
+        noTeamSection.set("members", membersWithoutTeam);
+        Team noTeam = new Team("no-team");
+        noTeam.setLeader(null);
+        teamMap.put("no-team", noTeam); //loads the 'no-team' to the archive
+        reloadCustomFile();
+    }
+
+    public static void addToTheNoTeam(Player player){
+        loadCustomFile();
+        if(!customFile.contains(sectionKey + ".no-team")){
+            System.out.println("No-team section does not exist. Creating it...");
+            createNoTeam();
         }
+        ConfigurationSection noTeamSection = customFile.getConfigurationSection(sectionKey + ".no-team");
+        ArrayList<String> noTeamMembers = (ArrayList<String>) noTeamSection.getStringList("members");
+        String newMemberUUID = player.getUniqueId().toString();
+        if(!noTeamMembers.contains(newMemberUUID)){
+            noTeamMembers.add(newMemberUUID);
+            noTeamSection.set("members", noTeamMembers);
+            Member noMember = new Member(TeamList.getNoTeam(), player);
+            getNoTeam().addMember(noMember);
+        }
+        saveCustomFile();
     }
 
     public static void addTeamToTheList(Player player, String teamName){
@@ -147,6 +167,14 @@ public class TeamList {
 
     public static FileConfiguration getCustomFile(){
         return customFile;
+    }
+
+    private static void loadCustomFile(){
+        try {
+            customFile.load(file);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static void saveCustomFile(){
