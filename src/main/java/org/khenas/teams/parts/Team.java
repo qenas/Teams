@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Team {
     private String teamName;
     private Player leader;
-    private ArrayList<Player> members;
+    private ArrayList<Member> members;
 
     //new team
     public Team(String teamName){
@@ -22,12 +22,16 @@ public class Team {
         this.leader = leader;
     }
 
-    public void addMember(Player newMember){
+    public void addMember(Member newMember){
         members.add(newMember);
     }
 
     public String getTeamName(){
         return teamName;
+    }
+
+    public ArrayList<Player> getMembers(){
+        return members;
     }
 
 

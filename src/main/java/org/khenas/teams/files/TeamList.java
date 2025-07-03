@@ -6,6 +6,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +49,8 @@ public class TeamList {
                 for(int i = 0; i < memberName.size(); i++) {
                     Player player = Bukkit.getPlayer(memberName.get(i));
                     if (player != null) {
-                        team.addMember(player);
+                        Member newMember = new Member(team, player);
+                        team.addMember(newMember);
                     }
                 }
                 String leaderName = teamSection.getString("leader");
@@ -59,6 +61,7 @@ public class TeamList {
                 teamMap.put(teamName, team);
             }
         }
+        PlayerManagement.loadPlayers();
     }
 
     public static Map<String, Team> getTeamMap(){
@@ -88,7 +91,8 @@ public class TeamList {
             teamSection.set("members", members); //create a subsection on "team-list" named members
             Team team = new Team(teamName);
             team.setLeader(player);
-            team.addMember(player);
+            Member newMember = new Member(team, player);
+            team.addMember(newMember);
             teamMap.put(teamName, team);
             player.sendMessage(ChatColor.GREEN + "Team has been created successfully.");
             player.sendMessage("Team created. The leader are -" + ChatColor.AQUA + player.getName());
