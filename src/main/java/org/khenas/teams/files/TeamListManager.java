@@ -3,7 +3,6 @@ package org.khenas.teams.files;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,7 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 
-public class TeamList {
+public class TeamListManager {
     private static final String sectionKey = "team-list";
     private static File file;
     private static FileConfiguration customFile;
@@ -160,6 +159,40 @@ public class TeamList {
             player.sendMessage(ChatColor.RED + "Unavailable team name. Try with another name.");
         }
         reloadCustomFile();
+    }
+
+    public static void addToTeam(Player leader, Player memberToAdd){
+        Member leaderMember = getMemberByUUID(leader);
+        Team team = leaderMember.getTeam();
+        if(!(team.equals(getNoTeam()))){ // this check if it is a valid team
+            Member newMember = getMemberByUUID(memberToAdd);
+            if(newMember.getTeam().equals(getNoTeam())){ // verifica que el otro jugador no tenga un team.
+                if(team.isLeader(leaderMember)){ // if the commandsender is the right leader of -team
+                    loadCustomFile();
+                    String teamName = team.getTeamName();
+                    if(!customFile.contains(sectionKey + "." + teamName)){
+                        System.out.println("Error: the team does not exist.");
+                    } else {
+                        if(isOnTeam(memberToAdd)){
+                            leader.sendMessage("The player already have a team.");
+                        } else {
+                            ConfigurationSection teamSection = customFile.getConfigurationSection(sectionKey + "." + teamName);
+                            ArrayList<String> teamMembers = (ArrayList<String>) teamSection.getStringList("members");
+                            String memberToAddUUID = memberToAdd.getUniqueId().toString();
+                            teamMembers.add(memberToAddUUID);
+                            teamSection.set("members", teamMembers);
+                            team.addMember(newMember);
+                            removeFromTheNoTeam(memberToAdd);
+                            saveCustomFile();
+                            leader.sendMessage("The player " + ChatColor.RED + memberToAdd.getName() + ChatColor.WHITE + "to your team.");
+                            memberToAdd.sendMessage("You have been added to " + team.getTeamName());
+                        }
+                    }
+                }
+            }
+        } else {
+            leader.sendMessage("You can not use the command because you do not have a team, buddy.");
+        }
     }
 
     public static boolean isOnTeam(Player player){

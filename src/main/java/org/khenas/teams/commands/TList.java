@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.khenas.teams.files.TeamList;
+import org.khenas.teams.files.TeamListManager;
 import org.khenas.teams.parts.Team;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class TList implements CommandExecutor {
             return true;
         }
         Player player = (Player) commandSender;
-        ArrayList<Team> teamList = new ArrayList<>(TeamList.getTeamMap().values());
+        ArrayList<Team> teamList = new ArrayList<>(TeamListManager.getTeamMap().values());
         player.sendMessage(ChatColor.RED + "-----TEAM LIST-----");
         for(Team team: teamList){
             if(!team.getTeamName().equals("no-team")) {

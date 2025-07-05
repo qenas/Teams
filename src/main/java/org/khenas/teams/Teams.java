@@ -1,11 +1,10 @@
 package org.khenas.teams;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import org.khenas.teams.commands.TCreate;
-import org.khenas.teams.commands.TList;
-import org.khenas.teams.commands.TMyTeam;
+import org.khenas.teams.commands.*;
 import org.khenas.teams.events.PlayerJoin;
-import org.khenas.teams.files.TeamList;
+import org.khenas.teams.files.TeamListManager;
+
 
 public final class Teams extends JavaPlugin {
 
@@ -13,6 +12,7 @@ public final class Teams extends JavaPlugin {
     public void onEnable() {
 
         //commands
+        getCommand("tadd").setExecutor(new TAdd());
         getCommand("tlist").setExecutor(new TList());
         getCommand("tcreate").setExecutor(new TCreate());
         getCommand("tmyteam").setExecutor(new TMyTeam());
@@ -20,8 +20,8 @@ public final class Teams extends JavaPlugin {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         //setup teamlist
-        TeamList.setup();
-        TeamList.saveCustomFile();
+        TeamListManager.setup();
+        TeamListManager.saveCustomFile();
         //events
         getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
     }
@@ -29,6 +29,6 @@ public final class Teams extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        TeamList.saveCustomFile();
+        TeamListManager.saveCustomFile();
     }
 }

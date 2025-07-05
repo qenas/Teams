@@ -3,18 +3,23 @@ version: '0.0.3'
 main: org.khenas.teams.Teams
 api-version: '1.21'
 commands:
-  create:
+  tcreate:
     description: "Create a team, the leader will be the command sender."
     usage: "/tcreate [teamname]"
     permission: teams.command.create
     permission-message: "You do not have permission to use this command."
-  list:
+  tlist:
     description: "Show all the team in a list format."
     usage:  "/tlist"
     permission: teams.command.list
     permission-message: "You do not have permission to use this command."
-  myteam:
+  tmyteam:
     description: "Show the team of the invocator's command"
-    usager: "/tmyteam"
+    usage: "/tmyteam"
     permission: teams.command.myteam
+    permission-message: "You do not have permission to use this command."
+  tadd:
+    description: "Add a member to a team."
+    usage: "/tadd [playername]"
+    permission: teams.command.add
     permission-message: "You do not have permission to use this command."

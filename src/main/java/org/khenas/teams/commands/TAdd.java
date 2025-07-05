@@ -1,5 +1,6 @@
 package org.khenas.teams.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,24 +11,23 @@ import org.khenas.teams.files.TeamListManager;
 import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 
-public class TMyTeam implements CommandExecutor {
-
+public class TAdd implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if(!(sender instanceof Player)){
             sender.sendMessage("Command only available for real players.");
             return true;
         }
-        Player player = (Player) sender; //cast the CommandSender to a Player
-        Member playerMember = TeamListManager.getMemberByUUID(player); //converts the Player to a Member type by his UUID
-        if(playerMember == null){
-            System.out.println("Error on loading the team of the player");
-        } else {
-            if(TeamListManager.isOnTeam(player)){
-                Team playerTeam = playerMember.getTeam();
-                player.sendMessage(ChatColor.WHITE + "You are on the " + ChatColor.BOLD+ ChatColor.RED + playerTeam.getTeamName());
+        Player player = (Player) sender;
+        if(args.length == 1){
+            Player playerToAdd = Bukkit.getPlayer(args[0]);
+            if(player != null){
+                TeamListManager.addToTeam(player, playerToAdd);
+                Member playerMember = TeamListManager.getMemberByUUID(player);
+                player.sendMessage("The player " + ChatColor.RED + playerMember.getPlayer().getName() + ChatColor.WHITE + "to your team.");
+                playerToAdd.sendMessage("You have been added to " + playerMember.getTeam().getTeamName());
             } else {
-                player.sendMessage("You do not have a team, buddy.");
+                player.sendMessage("Invalid player name. Could not find that dude.");
             }
         }
         return true;
