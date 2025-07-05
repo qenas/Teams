@@ -7,10 +7,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.khenas.teams.files.TeamList;
 import org.khenas.teams.parts.Member;
-import org.khenas.teams.parts.Team;
 
 
-public class Create implements CommandExecutor {
+public class TCreate implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {

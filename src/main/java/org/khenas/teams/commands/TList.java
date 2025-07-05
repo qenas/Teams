@@ -11,7 +11,7 @@ import org.khenas.teams.parts.Team;
 
 import java.util.ArrayList;
 
-public class List implements CommandExecutor {
+public class TList implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
