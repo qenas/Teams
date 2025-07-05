@@ -1,5 +1,5 @@
 name: Teams
-version: '1.1'
+version: '0.0.2'
 main: org.khenas.teams.Teams
 api-version: '1.21'
 commands:

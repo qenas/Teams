@@ -11,8 +11,7 @@ public final class Teams extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        //events
-        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+
         //commands
         getCommand("list").setExecutor(new List());
         getCommand("create").setExecutor(new Create());
@@ -23,6 +22,8 @@ public final class Teams extends JavaPlugin {
         //setup teamlist
         TeamList.setup();
         TeamList.saveCustomFile();
+        //events
+        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
     }
 
     @Override

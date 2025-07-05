@@ -31,9 +31,17 @@ public class Member implements Listener {
         return team;
     }
 
-
-
     public boolean isOnTheSameTeam(Member player){
         return team.getTeamName().equals(player.getTeam().getTeamName());
+    }
+
+    public boolean hasTheSamePlayer(Player other){
+        String thisUUID = this.getPlayer().getUniqueId().toString();
+        String otherUUID = other.getUniqueId().toString();
+        return thisUUID.equals(otherUUID);
+    }
+
+    public boolean equals(Member other){
+        return hasTheSamePlayer((Player) other.getPlayer());
     }
 }

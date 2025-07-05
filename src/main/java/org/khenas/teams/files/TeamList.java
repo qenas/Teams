@@ -3,6 +3,7 @@ package org.khenas.teams.files;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -101,8 +102,28 @@ public class TeamList {
         if(!noTeamMembers.contains(newMemberUUID)){
             noTeamMembers.add(newMemberUUID);
             noTeamSection.set("members", noTeamMembers);
-            Member noMember = new Member(TeamList.getNoTeam(), player);
+            Member noMember = new Member(getNoTeam(), player);
             getNoTeam().addMember(noMember);
+        } else {
+            System.out.println("Error: the player already have a team.");
+        }
+        saveCustomFile();
+    }
+
+    public static void removeFromTheNoTeam(Player player){
+        loadCustomFile();
+        if(!customFile.contains(sectionKey + ".no-team")){
+            System.out.println("No-team section does not exist. Creating it...");
+            createNoTeam();
+        }
+        ConfigurationSection noTeamSection = customFile.getConfigurationSection(sectionKey + ".no-team");
+        ArrayList<String> noTeamMembers = (ArrayList<String>) noTeamSection.getStringList("members");
+        String newMemberUUID = player.getUniqueId().toString();
+        if(noTeamMembers.contains(newMemberUUID)){
+            noTeamMembers.remove(newMemberUUID);
+            noTeamSection.set("members", noTeamMembers);
+            Member oldMember = getMemberByUUID(player);
+            getNoTeam().removeMember(oldMember);
         }
         saveCustomFile();
     }
@@ -142,19 +163,33 @@ public class TeamList {
     }
 
     public static boolean isOnTeam(Player player){
-        boolean playerHasTeam = false;
         String playerUUID = player.getUniqueId().toString();
         if(customFile.contains(sectionKey)){
-            ConfigurationSection noTeamSection = customFile.getConfigurationSection(sectionKey + ".no-team"); //read the .yml file -> get the "no-team" section
-            ArrayList<String> membersWithOutTeamUUIDs = (ArrayList<String>) noTeamSection.getStringList("members");
-            for(int i = 0; i < membersWithOutTeamUUIDs.size(); i++){
-                if(playerUUID.equals(membersWithOutTeamUUIDs.get(i))){
-                    playerHasTeam = true;
-                    break;
+            ConfigurationSection section = customFile.getConfigurationSection(sectionKey); //read the .yml file -> get the "team-list" section
+            for(String teamName : section.getKeys(false)){
+                if(!teamName.equals("no-team")){
+                    ConfigurationSection teamSection = section.getConfigurationSection(teamName); // team-list -> [team1, team2, ...] (subsections)
+                    ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
+                    for(int i = 0; i < memberUUIDs.size(); i++) {
+                        if(playerUUID.equals(memberUUIDs.get(i))){
+                            return true; // true: player have team.
+                        }
+                    }
                 }
             }
         }
-        return playerHasTeam;
+        return false; // false: player do not have team.
+    }
+
+    public static Member getMemberByUUID(Player player){
+        for(Team team: teamMap.values()){
+            for(Member member: team.getMembers()){
+                if(member.hasTheSamePlayer(player)){
+                    return member; // return the object 'member' who is associated with the player.
+                }
+            }
+        }
+        return null; // returns null if the player does not have a object member associated.
     }
 
     public static Team getTeam(String teamName){

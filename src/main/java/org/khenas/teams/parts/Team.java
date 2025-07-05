@@ -6,12 +6,12 @@ import java.util.ArrayList;
 public class Team {
     private String teamName;
     private Player leader;
-    private static ArrayList<Member> members;
+    private  ArrayList<Member> members;
 
     //new team
     public Team(String teamName){
         this.teamName = teamName;
-        this.members = new ArrayList<>();
+        members = new ArrayList<>();
     }
 
     public int getMembersCount(){
@@ -26,24 +26,24 @@ public class Team {
         members.add(newMember);
     }
 
+    public void removeMember(Member oldMember){
+        for(int i = 0; i < members.size(); i++){
+            if(oldMember.getPlayer().equals(members.get(i).getPlayer())){
+                members.remove(i);
+            }
+        }
+    }
+
     public String getTeamName(){
         return teamName;
     }
 
-    public static Member getMemberByUUID(Player player){
-        String playerUUID = player.getUniqueId().toString(); //obtains the UUID of the player (CommandSender)
-        for (Member member : members) {
-            OfflinePlayer memberPlayer = member.getPlayer(); //obtains the object memberPlayer
-            String memberUUID = memberPlayer.getUniqueId().toString(); //obtains the UUID of the memberPlayer
-            if (playerUUID.equals(memberUUID)) {
-                return member; //returns a Member object if the player form part of the array 'members'
-            }
-        }
-        return null; //returns null if the player do not form part of the array 'members'
-    }
-
     public ArrayList<Member> getMembers(){
         return members;
+    }
+
+    public boolean equals(Team other){
+        return this.getTeamName().equals(other.getTeamName());
     }
 
 
