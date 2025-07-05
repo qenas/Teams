@@ -22,8 +22,10 @@ public class List implements CommandExecutor {
         Player player = (Player) commandSender;
         ArrayList<Team> teamList = new ArrayList<>(TeamList.getTeamMap().values());
         player.sendMessage(ChatColor.RED + "-----TEAM LIST-----");
-        for(int i = 0; i < teamList.size(); i++){
-            player.sendMessage(teamList.get(i).getTeamName());
+        for(Team team: teamList){
+            if(!team.getTeamName().equals("no-team")) {
+                player.sendMessage(team.getTeamName());
+            }
         }
         return true;
     }

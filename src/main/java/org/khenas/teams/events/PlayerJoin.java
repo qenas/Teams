@@ -20,6 +20,7 @@ public class PlayerJoin implements Listener {
             //the player does not have a object member associated.
             TeamList.addToTheNoTeam(player);
             System.out.println(player.getName() + " added to the 'no-team' list.");
+            player.sendMessage("Welcome, " + player.getName() + ". You do not have a team, try with joining a create one or create your own team.");
         } else {
             if(TeamList.isOnTeam(player)){
                 // The player does not is on no-team list, so he has a team.
