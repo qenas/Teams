@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.khenas.teams.files.TeamListManager;
 import org.khenas.teams.parts.Member;
+import org.khenas.teams.parts.Team;
 
 
 public class TCreate implements CommandExecutor {
@@ -19,9 +20,8 @@ public class TCreate implements CommandExecutor {
         }
         Player player = (Player) commandSender;
         Member member = TeamListManager.getMemberByUUID(player);
-        System.out.println(member.getPlayer().getName());
-        if(member.getTeam() != null){ //if a member do not have a team, can create a new one.
-            if(TeamListManager.getNoTeam().equals(member.getTeam())){
+        if(member != null){ //if the player has a object member assosiated
+            if(!(TeamListManager.isOnTeam(player))){ // if the player do not have a team, then he can create a new one.
                 if(strings.length == 0){
                     player.sendMessage("Invalid name or null name. Please, write a name valid name for you team.");
                 } else {
@@ -30,10 +30,9 @@ public class TCreate implements CommandExecutor {
                     TeamListManager.removeFromTheNoTeam(player);
                 }
             } else {
-                player.sendMessage("You alredy have a team, homie. Leave that one to create a new team.");
+                player.sendMessage("You already have a team, buddy. Leave that one to create a new team.");
             }
         }
         return true;
     }
-
 }

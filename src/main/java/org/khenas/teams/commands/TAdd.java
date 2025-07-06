@@ -21,11 +21,8 @@ public class TAdd implements CommandExecutor {
         Player player = (Player) sender;
         if(args.length == 1){
             Player playerToAdd = Bukkit.getPlayer(args[0]);
-            if(player != null){
+            if(playerToAdd != null){
                 TeamListManager.addToTeam(player, playerToAdd);
-                Member playerMember = TeamListManager.getMemberByUUID(player);
-                player.sendMessage("The player " + ChatColor.RED + playerMember.getPlayer().getName() + ChatColor.WHITE + "to your team.");
-                playerToAdd.sendMessage("You have been added to " + playerMember.getTeam().getTeamName());
             } else {
                 player.sendMessage("Invalid player name. Could not find that dude.");
             }

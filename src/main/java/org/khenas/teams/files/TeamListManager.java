@@ -161,34 +161,37 @@ public class TeamListManager {
         reloadCustomFile();
     }
 
-    public static void addToTeam(Player leader, Player memberToAdd){
+    public static void addToTeam(Player leader, Player playerToAdd){
+        loadCustomFile();
         Member leaderMember = getMemberByUUID(leader);
         Team team = leaderMember.getTeam();
         if(!(team.equals(getNoTeam()))){ // this check if it is a valid team
-            Member newMember = getMemberByUUID(memberToAdd);
+            Member newMember = getMemberByUUID(playerToAdd);
             if(newMember.getTeam().equals(getNoTeam())){ // verifica que el otro jugador no tenga un team.
                 if(team.isLeader(leaderMember)){ // if the commandsender is the right leader of -team
-                    loadCustomFile();
                     String teamName = team.getTeamName();
                     if(!customFile.contains(sectionKey + "." + teamName)){
                         System.out.println("Error: the team does not exist.");
                     } else {
-                        if(isOnTeam(memberToAdd)){
+                        if(isOnTeam(playerToAdd)){
                             leader.sendMessage("The player already have a team.");
                         } else {
                             ConfigurationSection teamSection = customFile.getConfigurationSection(sectionKey + "." + teamName);
                             ArrayList<String> teamMembers = (ArrayList<String>) teamSection.getStringList("members");
-                            String memberToAddUUID = memberToAdd.getUniqueId().toString();
+                            String memberToAddUUID = playerToAdd.getUniqueId().toString();
                             teamMembers.add(memberToAddUUID);
+                            System.out.println(teamMembers.toString());
                             teamSection.set("members", teamMembers);
-                            team.addMember(newMember);
-                            removeFromTheNoTeam(memberToAdd);
                             saveCustomFile();
-                            leader.sendMessage("The player " + ChatColor.RED + memberToAdd.getName() + ChatColor.WHITE + "to your team.");
-                            memberToAdd.sendMessage("You have been added to " + team.getTeamName());
+                            team.addMember(newMember);
+                            removeFromTheNoTeam(playerToAdd);
+                            leader.sendMessage("The player " + ChatColor.RED + playerToAdd.getName() + ChatColor.WHITE + " has been added to your team.");
+                            playerToAdd.sendMessage("You have been added to " + team.getTeamName());
                         }
                     }
                 }
+            } else {
+                leader.sendMessage("The player " + ChatColor.RED + playerToAdd.getName() + ChatColor.WHITE + " already has a team." );
             }
         } else {
             leader.sendMessage("You can not use the command because you do not have a team, buddy.");
