@@ -15,12 +15,13 @@ public class TList implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
+        TeamListManager teamListManager = new TeamListManager();
         if(!(commandSender instanceof Player)){
             commandSender.sendMessage("Command only available for real players.");
             return true;
         }
         Player player = (Player) commandSender;
-        ArrayList<Team> teamList = new ArrayList<>(TeamListManager.getTeamMap().values());
+        ArrayList<Team> teamList = new ArrayList<>(teamListManager.getTeamMap().values());
         player.sendMessage(ChatColor.RED + "-----TEAM LIST-----");
         for(Team team: teamList){
             if(!team.getTeamName().equals("no-team")) {

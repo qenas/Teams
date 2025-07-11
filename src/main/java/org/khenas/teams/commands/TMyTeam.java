@@ -14,16 +14,17 @@ public class TMyTeam implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+        TeamListManager teamListManager = new TeamListManager();
         if(!(sender instanceof Player)){
             sender.sendMessage("Command only available for real players.");
             return true;
         }
         Player player = (Player) sender; //cast the CommandSender to a Player
-        Member playerMember = TeamListManager.getMemberByUUID(player); //converts the Player to a Member type by his UUID
+        Member playerMember = teamListManager.getMemberByUUID(player); //converts the Player to a Member type by his UUID
         if(playerMember == null){
             System.out.println("Error on loading the team of the player");
         } else {
-            if(TeamListManager.isOnTeam(player)){
+            if(teamListManager.isOnTeam(player)){
                 Team playerTeam = playerMember.getTeam();
                 player.sendMessage(ChatColor.WHITE + "You are on the " + ChatColor.BOLD+ ChatColor.RED + playerTeam.getTeamName());
             } else {
