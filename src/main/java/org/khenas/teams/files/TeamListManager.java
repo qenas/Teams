@@ -19,12 +19,13 @@ import java.util.UUID;
 
 public class TeamListManager {
     private static final String sectionKey = "team-list";
-    private static File file;
-    private static FileConfiguration customFile;
-    private static final Map<String, Team> teamMap = new HashMap<>();
+    private File file;
+    private FileConfiguration customFile;
+    private Map<String, Team> teamMap = new HashMap<>();
+    private PlayerManager playerManager = new PlayerManager();
 
     //finds or generates the configuration file
-    public static void setup(){
+    public void setup(){
         file = new File(Bukkit.getServer().getPluginManager().getPlugin("Teams").getDataFolder(), "teamlist.yml");
         if(!file.exists()){ //if the file 'teamlist.yml' does not exist, this creates a new one.
             try{
@@ -44,7 +45,7 @@ public class TeamListManager {
         loadTeams();
     }
 
-    private static void loadTeams(){
+    private void loadTeams(){
         teamMap.clear();
         if(customFile.contains(sectionKey)){
             ConfigurationSection section = customFile.getConfigurationSection(sectionKey); //read the .yml file -> get the "team-list" section
@@ -52,12 +53,7 @@ public class TeamListManager {
                 ConfigurationSection teamSection = section.getConfigurationSection(teamName); // team-list -> [team1, team2, ...] (subsections)
                 Team team = new Team(teamName);
                 ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
-                for(int i = 0; i < memberUUIDs.size(); i++) {
-                    UUID uuid = UUID.fromString(memberUUIDs.get(i));
-                    OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-                    Member newMember = new Member(team, player);
-                    team.addMember(newMember);
-                }
+                playerManager.loadMembers(team, memberUUIDs); // initialize the Member objects
                 String leaderName = teamSection.getString("leader");
                 if(leaderName != null){
                     Player leader = Bukkit.getPlayer(leaderName);
@@ -69,11 +65,11 @@ public class TeamListManager {
         reloadCustomFile();
     }
 
-    public static Map<String, Team> getTeamMap(){
+    public Map<String, Team> getTeamMap(){
         return teamMap;
     }
 
-    private static void createNoTeam(){
+    private void createNoTeam(){
         try {
             customFile.load(file);
         } catch (Exception e) {
@@ -89,7 +85,7 @@ public class TeamListManager {
         reloadCustomFile();
     }
 
-    public static void addToTheNoTeam(Player player){
+    public void addToTheNoTeam(Player player){
         loadCustomFile();
         if(!customFile.contains(sectionKey + ".no-team")){
             System.out.println("No-team section does not exist. Creating it...");
@@ -109,7 +105,7 @@ public class TeamListManager {
         saveCustomFile();
     }
 
-    public static void removeFromTheNoTeam(Player player){
+    public void removeFromTheNoTeam(Player player){
         loadCustomFile();
         if(!customFile.contains(sectionKey + ".no-team")){
             System.out.println("No-team section does not exist. Creating it...");
@@ -127,7 +123,7 @@ public class TeamListManager {
         saveCustomFile();
     }
 
-    public static void addTeamToTheList(Player player, String teamName){
+    public void addTeamToTheList(Player player, String teamName){
         try {
             customFile.load(file);
         } catch (Exception e) {
@@ -161,13 +157,13 @@ public class TeamListManager {
         reloadCustomFile();
     }
 
-    public static void addToTeam(Player leader, Player playerToAdd){
+    public void addToTeam(Player leader, Player playerToAdd){
         loadCustomFile();
         Member leaderMember = getMemberByUUID(leader);
         Team team = leaderMember.getTeam();
         if(!(team.equals(getNoTeam()))){ // this check if it is a valid team
             Member newMember = getMemberByUUID(playerToAdd);
-            if(newMember.getTeam().equals(getNoTeam())){ // verifica que el otro jugador no tenga un team.
+            if(!(isOnTeam(playerToAdd))){ // verifica que el otro jugador no tenga un team.
                 if(team.isLeader(leaderMember)){ // if the commandsender is the right leader of -team
                     String teamName = team.getTeamName();
                     if(!customFile.contains(sectionKey + "." + teamName)){
@@ -189,6 +185,8 @@ public class TeamListManager {
                             playerToAdd.sendMessage("You have been added to " + team.getTeamName());
                         }
                     }
+                } else {
+                    leader.sendMessage("You can not use the command because you are not the team's leader, buddy.");
                 }
             } else {
                 leader.sendMessage("The player " + ChatColor.RED + playerToAdd.getName() + ChatColor.WHITE + " already has a team." );
@@ -198,7 +196,7 @@ public class TeamListManager {
         }
     }
 
-    public static boolean isOnTeam(Player player){
+    public boolean isOnTeam(Player player){
         String playerUUID = player.getUniqueId().toString();
         if(customFile.contains(sectionKey)){
             ConfigurationSection section = customFile.getConfigurationSection(sectionKey); //read the .yml file -> get the "team-list" section
@@ -217,7 +215,7 @@ public class TeamListManager {
         return false; // false: player do not have team.
     }
 
-    public static Member getMemberByUUID(Player player){
+    public Member getMemberByUUID(Player player){
         for(Team team: teamMap.values()){
             for(Member member: team.getMembers()){
                 if(member.hasTheSamePlayer(player)){
@@ -228,19 +226,19 @@ public class TeamListManager {
         return null; // returns null if the player does not have a object member associated.
     }
 
-    public static Team getTeam(String teamName){
+    public Team getTeam(String teamName){
         return teamMap.get(teamName);
     }
 
-    public static Team getNoTeam(){
+    public Team getNoTeam(){
         return teamMap.get("no-team");
     }
 
-    public static FileConfiguration getCustomFile(){
+    public FileConfiguration getCustomFile(){
         return customFile;
     }
 
-    private static void loadCustomFile(){
+    private void loadCustomFile(){
         try {
             customFile.load(file);
         } catch (Exception e) {
@@ -248,7 +246,7 @@ public class TeamListManager {
         }
     }
 
-    public static void saveCustomFile(){
+    public void saveCustomFile(){
         try{
             customFile.save(file);
         } catch (IOException e) {
@@ -256,9 +254,8 @@ public class TeamListManager {
         }
     }
 
-    public static void reloadCustomFile(){
+    public void reloadCustomFile(){
         saveCustomFile();
         customFile = YamlConfiguration.loadConfiguration(file);
     }
-
 }

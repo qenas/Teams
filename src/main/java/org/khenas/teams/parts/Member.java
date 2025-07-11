@@ -4,15 +4,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
-
 public class Member implements Listener {
     private Team team;
     private OfflinePlayer player;
-
-    public Member(){
-        team = null;
-        player = null;
-    }
 
     public Member(Team team, OfflinePlayer player){
         this.team = team;

@@ -14,19 +14,26 @@ import org.khenas.teams.parts.Team;
 public class TAdd implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+        TeamListManager teamListManager = new TeamListManager();
         if(!(sender instanceof Player)){
             sender.sendMessage("Command only available for real players.");
             return true;
         }
         Player player = (Player) sender;
         if(args.length == 1){
-            Player playerToAdd = Bukkit.getPlayer(args[0]);
+            Player playerToAdd = Bukkit.getPlayerExact(args[0]);
             if(playerToAdd != null){
-                TeamListManager.addToTeam(player, playerToAdd);
+                teamListManager.addToTeam(player, playerToAdd);
             } else {
                 player.sendMessage("Invalid player name. Could not find that dude.");
             }
+        } else if (args.length > 1){
+            player.sendMessage("Invalid syntax. Only an argument available.");
+        } else {
+            player.sendMessage("Insert a player name as an argument.");
         }
+
+
         return true;
     }
 }
