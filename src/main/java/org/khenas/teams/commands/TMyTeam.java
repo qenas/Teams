@@ -6,15 +6,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.khenas.teams.files.PlayerManager;
 import org.khenas.teams.files.TeamListManager;
 import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 
 public class TMyTeam implements CommandExecutor {
     private TeamListManager teamListManager;
+    private PlayerManager playerManager;
 
-    public TMyTeam(TeamListManager teamListManager){
+    public TMyTeam(TeamListManager teamListManager, PlayerManager playerManager){
         this.teamListManager = teamListManager;
+        this.playerManager = playerManager;
     }
 
     @Override

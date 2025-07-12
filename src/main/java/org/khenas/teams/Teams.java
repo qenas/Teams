@@ -24,8 +24,8 @@ public final class Teams extends JavaPlugin {
         //commands
         getCommand("tadd").setExecutor(new TAdd());
         getCommand("tlist").setExecutor(new TList());
-        getCommand("tcreate").setExecutor(new TCreate());
-        getCommand("tmyteam").setExecutor(new TMyTeam(teamListManager));
+        getCommand("tcreate").setExecutor(new TCreate(teamListManager, playerManager));
+        getCommand("tmyteam").setExecutor(new TMyTeam(teamListManager, playerManager));
     }
 
     @Override

@@ -15,6 +15,11 @@ public class TCreate implements CommandExecutor {
     private TeamListManager teamListManager;
     private PlayerManager playerManager;
 
+    public TCreate(TeamListManager teamListManager, PlayerManager playerManager){
+        this.teamListManager = teamListManager;
+        this.playerManager = playerManager;
+    }
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
         if(!(commandSender instanceof Player)){
@@ -22,19 +27,17 @@ public class TCreate implements CommandExecutor {
             return true;
         }
         Player player = (Player) commandSender;
-        Member member = playerManager.getMemberByUUID(player);
-        if(member != null){ //if the player has a object member assosiated
-            if(!(teamListManager.isOnTeam(player))){ // if the player do not have a team, then he can create a new one.
-                if(strings.length == 0){
-                    player.sendMessage("Invalid name or null name. Please, write a name valid name for you team.");
-                } else {
-                    String teamName = strings[0];
-                    teamListManager.addTeamToTheList(player, teamName);
-                    teamListManager.removeFromTheNoTeam(player);
-                }
+        if(!teamListManager.isOnTeam(player)){
+            Member playerMember = playerManager.getMemberByUUID(player);
+            if(strings.length == 0){
+                player.sendMessage("Invalid name or null name. Please, write a name valid name for you team.");
             } else {
-                player.sendMessage("You already have a team, buddy. Leave that one to create a new team.");
+                String teamName = strings[0];
+                teamListManager.addTeamToTheList(playerMember, teamName);
+                teamListManager.removeFromTheNoTeam(playerMember);
             }
+        } else {
+            player.sendMessage("You already have a team, buddy. Leave that one to create a new team.");
         }
         return true;
     }

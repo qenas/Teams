@@ -106,7 +106,7 @@ public class TeamListManager {
         reloadCustomFile();
     }
 
-    public void removeFromTheNoTeam(Player player){
+    public void removeFromTheNoTeam(Member member){
         loadCustomFile();
         if(!customFile.contains(sectionKey + ".no-team")){
             System.out.println("No-team section does not exist. Creating it...");
@@ -114,17 +114,17 @@ public class TeamListManager {
         }
         ConfigurationSection noTeamSection = customFile.getConfigurationSection(sectionKey + ".no-team");
         ArrayList<String> noTeamMembers = (ArrayList<String>) noTeamSection.getStringList("members");
-        String newMemberUUID = player.getUniqueId().toString();
+        String newMemberUUID = member.getPlayer().getUniqueId().toString();
         if(noTeamMembers.contains(newMemberUUID)){
             noTeamMembers.remove(newMemberUUID);
             noTeamSection.set("members", noTeamMembers);
-            Member oldMember = getMemberByUUID(player);
-            getNoTeam().removeMember(oldMember);
+        } else {
+            System.out.println("Error to delete this player: the player is not on the members list.");
         }
         reloadCustomFile();
     }
 
-    public void addTeamToTheList(Player player, String teamName){
+    public void addTeamToTheList(Member member, String teamName){
         loadCustomFile();
         //comparing teamname on the list, following case
         ConfigurationSection teamList = customFile.getConfigurationSection(sectionKey);
@@ -135,21 +135,21 @@ public class TeamListManager {
                 break;
             }
         }
+        Player leader = (Player) member.getPlayer();
         if(!teamExists){ //if the team does not exist, this will create a new subsection for it.
             ConfigurationSection teamSection = customFile.createSection(sectionKey + "." + teamName); //read the .yml file -> get the "team-list" section
-            teamSection.set("leader", player.getUniqueId().toString()); //create a subsection on "team-list" named leader
+            teamSection.set("leader", leader.getUniqueId().toString()); //create a subsection on "team-list" named leader
             ArrayList<String> members = new ArrayList<>();
-            members.add(player.getUniqueId().toString());
+            members.add(leader.getUniqueId().toString());
             teamSection.set("members", members); //create a subsection on "team-list" named members
             Team team = new Team(teamName);
-            team.setLeader(player);
-            Member newMember = new Member(team, player);
-            team.addMember(newMember);
+            team.addMember(member);
+            team.setLeader(member.getPlayer());
             teamMap.put(teamName, team);
-            player.sendMessage(ChatColor.GREEN + "Team has been created successfully.");
-            player.sendMessage("Team created. The leader are -" + ChatColor.AQUA + player.getName());
+            leader.sendMessage(ChatColor.GREEN + "Team has been created successfully.");
+            leader.sendMessage("Team created. The leader are -" + ChatColor.AQUA + leader.getName());
         } else {
-            player.sendMessage(ChatColor.RED + "Unavailable team name. Try with another name.");
+            leader.sendMessage(ChatColor.RED + "Unavailable team name. Try with another name.");
         }
         reloadCustomFile();
     }
