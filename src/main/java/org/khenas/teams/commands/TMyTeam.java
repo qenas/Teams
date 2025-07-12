@@ -12,11 +12,9 @@ import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 
 public class TMyTeam implements CommandExecutor {
-    private TeamListManager teamListManager;
     private PlayerManager playerManager;
 
-    public TMyTeam(TeamListManager teamListManager, PlayerManager playerManager){
-        this.teamListManager = teamListManager;
+    public TMyTeam(PlayerManager playerManager){
         this.playerManager = playerManager;
     }
 
@@ -26,17 +24,19 @@ public class TMyTeam implements CommandExecutor {
             sender.sendMessage("Command only available for real players.");
             return true;
         }
+
         Player player = (Player) sender; //cast the CommandSender to a Player
-        Member playerMember = teamListManager.getMemberByUUID(player); //converts the Player to a Member type by his UUID
-        if(playerMember == null){
-            System.out.println("Error on loading the team of the player");
-        } else {
-            if(teamListManager.isOnTeam(player)){
-                Team playerTeam = playerMember.getTeam();
-                player.sendMessage(ChatColor.WHITE + "You are on the " + ChatColor.BOLD+ ChatColor.RED + playerTeam.getTeamName());
+        Member playerMember = playerManager.getMemberByUUID(player); //converts the Player to a Member type by his UUID
+
+        if(playerMember != null) {
+            if(!playerMember.getTeam().equals(TeamListManager.getNoTeam())){
+                player.sendMessage(ChatColor.WHITE + "You are on the " + ChatColor.BOLD+ ChatColor.RED + playerMember.getTeam().getTeamName());
             } else {
                 player.sendMessage("You do not have a team, buddy.");
             }
+
+        } else {
+            System.out.println("Error: member does not exist.");
         }
         return true;
     }

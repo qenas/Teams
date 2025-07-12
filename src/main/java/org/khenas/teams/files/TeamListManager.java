@@ -21,7 +21,7 @@ public class TeamListManager {
     private File file;
     private FileConfiguration customFile;
     private ArrayList<UUID> playerMap = new ArrayList<>();
-    private Map<String, Team> teamMap = new HashMap<>();
+    private static Map<String, Team> teamMap = new HashMap<>();
 
     //finds or generates the configuration file
     public void setup(){
@@ -153,7 +153,7 @@ public class TeamListManager {
         reloadCustomFile();
     }
 
-    public void addToTeam(Player leader, Player playerToAdd){
+    /*public void addToTeam(Player leader, Player playerToAdd){
         loadCustomFile();
         Member leaderMember = getMemberByUUID(leader);
         Team team = leaderMember.getTeam();
@@ -190,7 +190,7 @@ public class TeamListManager {
         } else {
             leader.sendMessage("You can not use the command because you do not have a team, buddy.");
         }
-    }
+    }*/
 
     public boolean isOnTeam(Player player){
         loadCustomFile();
@@ -237,7 +237,7 @@ public class TeamListManager {
         return teamMap.get(teamName);
     }
 
-    public Team getNoTeam(){
+    public static Team getNoTeam(){
         return teamMap.get("no-team");
     }
 
