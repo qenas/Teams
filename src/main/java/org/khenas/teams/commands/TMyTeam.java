@@ -11,10 +11,14 @@ import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 
 public class TMyTeam implements CommandExecutor {
+    private TeamListManager teamListManager;
+
+    public TMyTeam(TeamListManager teamListManager){
+        this.teamListManager = teamListManager;
+    }
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        TeamListManager teamListManager = new TeamListManager();
         if(!(sender instanceof Player)){
             sender.sendMessage("Command only available for real players.");
             return true;

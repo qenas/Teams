@@ -5,21 +5,24 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.khenas.teams.files.PlayerManager;
 import org.khenas.teams.files.TeamListManager;
 import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 
 
 public class TCreate implements CommandExecutor {
+    private TeamListManager teamListManager;
+    private PlayerManager playerManager;
+
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
-        TeamListManager teamListManager = new TeamListManager();
         if(!(commandSender instanceof Player)){
             commandSender.sendMessage("Command only available for real players.");
             return true;
         }
         Player player = (Player) commandSender;
-        Member member = teamListManager.getMemberByUUID(player);
+        Member member = playerManager.getMemberByUUID(player);
         if(member != null){ //if the player has a object member assosiated
             if(!(teamListManager.isOnTeam(player))){ // if the player do not have a team, then he can create a new one.
                 if(strings.length == 0){

@@ -3,6 +3,7 @@ package org.khenas.teams;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.khenas.teams.commands.*;
 import org.khenas.teams.events.PlayerJoin;
+import org.khenas.teams.files.PlayerManager;
 import org.khenas.teams.files.TeamListManager;
 
 
@@ -11,20 +12,20 @@ public final class Teams extends JavaPlugin {
     @Override
     public void onEnable() {
 
-        //commands
-        getCommand("tadd").setExecutor(new TAdd());
-        getCommand("tlist").setExecutor(new TList());
-        getCommand("tcreate").setExecutor(new TCreate());
-        getCommand("tmyteam").setExecutor(new TMyTeam());
         //setup default config.yml
         getConfig().options().copyDefaults();
         saveDefaultConfig();
         //setup teamlist
-
         teamListManager.setup();
         teamListManager.saveCustomFile();
+        PlayerManager playerManager = new PlayerManager(teamListManager.getPlayerMap());
         //events
-        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoin(teamListManager, playerManager), this);
+        //commands
+        getCommand("tadd").setExecutor(new TAdd());
+        getCommand("tlist").setExecutor(new TList());
+        getCommand("tcreate").setExecutor(new TCreate());
+        getCommand("tmyteam").setExecutor(new TMyTeam(teamListManager));
     }
 
     @Override
