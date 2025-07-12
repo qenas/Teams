@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.khenas.teams.files.PlayerManager;
 import org.khenas.teams.files.TeamListManager;
 import org.khenas.teams.parts.Member;
-import org.khenas.teams.parts.Team;
 
 
 public class TCreate implements CommandExecutor {

@@ -7,7 +7,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.khenas.teams.files.PlayerManager;
 import org.khenas.teams.files.TeamListManager;
-import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 
 
@@ -28,12 +27,13 @@ public class PlayerJoin implements Listener {
             Team teamOfPlayer = teamListManager.getTeamOfPlayer(player);
             if(teamOfPlayer == null){
                 System.out.println("Error to load the team of this player: " + player.getName() + "/" + player.getUniqueId());
-            } else if (teamOfPlayer.equals(teamListManager.getNoTeam())){  // The player already joined to the server al least one time, but does not have a team.
+            } else { // The player already joined to the server at least one time.
                 playerManager.setupMember(teamOfPlayer, player);
-                player.sendMessage("You do not have a team, buddy.");
-            } else {
-                playerManager.setupMember(teamOfPlayer, player);
-                player.sendMessage("Your team is: " + ChatColor.RED + teamOfPlayer.getTeamName());
+                if(teamOfPlayer.equals(teamListManager.getNoTeam())){
+                    player.sendMessage("You do not have a team, buddy.");
+                } else {
+                    player.sendMessage("Your team is: " + ChatColor.RED + teamOfPlayer.getTeamName());
+                }
             }
         } else { // The player joins for the first time at the server.
             playerManager.setupMember(teamListManager.getNoTeam(), player);
