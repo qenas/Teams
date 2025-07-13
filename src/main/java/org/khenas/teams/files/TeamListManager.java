@@ -158,6 +158,16 @@ public class TeamListManager {
         reloadCustomFile();
     }
 
+    public void addToTeam(Member member, Team team){
+        if(teamMap.containsKey(team.getTeamName())){
+            team.addMember(member);
+            member.getPlayer().sendMessage("You has been added to: " + ChatColor.GREEN + team.getTeamName());
+            member.setTeam(team);
+        } else {
+            System.out.println("Invalid team or error to load.");
+        }
+    }
+
     /*public void addToTeam(Player leader, Player playerToAdd){
         loadCustomFile();
         Member leaderMember = getMemberByUUID(leader);

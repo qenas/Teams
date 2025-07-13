@@ -18,3 +18,8 @@ commands:
     usage: "/tmyteam"
     permission: teams.command.myteam
     permission-message: "You do not have permission to use this command."
+  tadd:
+    description: "Add a member to a team."
+    usage: "/tadd [playername]"
+    permission: teams.command.add
+    permission-message: "You do not have permission to use this command."

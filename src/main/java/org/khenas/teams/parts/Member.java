@@ -6,9 +6,9 @@ import org.bukkit.event.Listener;
 
 public class Member implements Listener {
     private Team team;
-    private OfflinePlayer player;
+    private Player player;
 
-    public Member(Team team, OfflinePlayer player){
+    public Member(Team team, Player player){
         this.team = team;
         this.player = player;
     }
@@ -17,7 +17,7 @@ public class Member implements Listener {
         this.player = player;
     }
 
-    public OfflinePlayer getPlayer(){
+    public Player getPlayer(){
         return player;
     }
 
