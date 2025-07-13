@@ -31,7 +31,7 @@ public class PlayerJoin implements Listener {
                 Team teamOfPlayer = teamListManager.getTeamOfPlayer(player);
                 if (teamOfPlayer == null) {
                     System.out.println("Error to load the team of this player: " + player.getName() + "/" + player.getUniqueId());
-                } else { // The player already joined to the server at least one time.
+                } else {
                     playerManager.setupMember(teamOfPlayer, player);
                     if (teamOfPlayer.equals(teamListManager.getNoTeam())) {
                         player.sendMessage("You do not have a team, buddy.");
