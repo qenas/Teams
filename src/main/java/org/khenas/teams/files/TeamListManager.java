@@ -158,11 +158,19 @@ public class TeamListManager {
         reloadCustomFile();
     }
 
-    public void removeTeamFromTheList(Member leader, String teamName){
-        Team teamToRemove = getTeam(teamName);
-        if(teamToRemove.isLeader(leader.getPlayer())){
-
+    public void removeTeamFromTheList(Team teamToRemove){
+        loadCustomFile();
+        ConfigurationSection teamList = customFile.getConfigurationSection(sectionKey);
+        if(teamList.contains(teamToRemove.getTeamName())){
+            for(Member member: teamToRemove.getMembers()){
+                teamToRemove.removeMember(member);
+                member.setTeam(getNoTeam());
+                addToTheNoTeam(member);
+            }
+            teamList.set(teamToRemove.getTeamName(), null);
+            teamMap.remove(teamToRemove.getTeamName());
         }
+        reloadCustomFile();
     }
 
     public void addToTeam(Member member, Team team){
