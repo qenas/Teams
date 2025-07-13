@@ -81,7 +81,6 @@ public class PlayerManager {
 
     public void setupMember(Team team, Player player){
         addOnlineMember(new Member(team, player));
-        System.out.println(onlineMembers.values().toString());
     }
 
     public void addOnlineMember(Member member){
@@ -89,9 +88,10 @@ public class PlayerManager {
         onlineMembers.put(uuidMember, member);
     }
 
-    public void removeOnlineMember(Member member){
-        UUID uuidMember = member.getPlayer().getUniqueId();
-        onlineMembers.remove(uuidMember, member);
+    public void removeOnlineMember(Player player){
+        UUID uuidMember = player.getUniqueId();
+        onlineMembers.remove(uuidMember);
+        System.out.println("Removing " + player.getName() + "from the 'onlineMembers' map");
     }
 
     public boolean isOnline(Player player){

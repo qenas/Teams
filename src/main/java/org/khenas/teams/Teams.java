@@ -2,7 +2,7 @@ package org.khenas.teams;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.khenas.teams.commands.*;
-import org.khenas.teams.events.PlayerJoin;
+import org.khenas.teams.events.PlayerConnection;
 import org.khenas.teams.files.PlayerManager;
 import org.khenas.teams.files.TeamListManager;
 
@@ -21,7 +21,7 @@ public final class Teams extends JavaPlugin {
         teamListManager.setup();
         playerManager.setup();
         //events
-        getServer().getPluginManager().registerEvents(new PlayerJoin(teamListManager, playerManager), this);
+        getServer().getPluginManager().registerEvents(new PlayerConnection(teamListManager, playerManager), this);
         //commands
         //getCommand("tadd").setExecutor(new TAdd());
         getCommand("tlist").setExecutor(new TList(teamListManager));

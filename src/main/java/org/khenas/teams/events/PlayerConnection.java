@@ -5,17 +5,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.khenas.teams.files.PlayerManager;
 import org.khenas.teams.files.TeamListManager;
-import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 
 
-public class PlayerJoin implements Listener {
+public class PlayerConnection implements Listener {
     private TeamListManager teamListManager;
     private PlayerManager playerManager;
 
-    public PlayerJoin(TeamListManager teamListManager, PlayerManager playerManager){
+    public PlayerConnection(TeamListManager teamListManager, PlayerManager playerManager){
         this.teamListManager = teamListManager;
         this.playerManager = playerManager;
     }
@@ -44,6 +44,13 @@ public class PlayerJoin implements Listener {
             }
         }
     }
+
+    @EventHandler
+    public void onPlayerLeaves(PlayerQuitEvent event){
+        Player player = event.getPlayer();
+        playerManager.removeOnlineMember(player);
+    }
+
 
     private void playerJoining(Player player){
         playerManager.addUUIDtoArchive(player);
