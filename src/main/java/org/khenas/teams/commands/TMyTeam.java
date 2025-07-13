@@ -29,6 +29,7 @@ public class TMyTeam implements CommandExecutor {
         Member playerMember = playerManager.getMemberByUUID(player); //converts the Player to a Member type by his UUID
 
         if(playerMember != null) {
+            System.out.println(playerMember.getTeam().equals(TeamListManager.getNoTeam()));
             if(!playerMember.getTeam().equals(TeamListManager.getNoTeam())){
                 player.sendMessage(ChatColor.WHITE + "You are on the " + ChatColor.BOLD+ ChatColor.RED + playerMember.getTeam().getTeamName());
             } else {

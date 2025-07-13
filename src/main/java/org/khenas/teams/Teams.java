@@ -9,6 +9,8 @@ import org.khenas.teams.files.TeamListManager;
 
 public final class Teams extends JavaPlugin {
     private TeamListManager teamListManager = new TeamListManager();
+    private PlayerManager playerManager = new PlayerManager();
+
     @Override
     public void onEnable() {
 
@@ -17,10 +19,7 @@ public final class Teams extends JavaPlugin {
         saveDefaultConfig();
         //setup teamlist
         teamListManager.setup();
-        teamListManager.saveCustomFile();
-
-        PlayerManager playerManager = new PlayerManager(teamListManager.getPlayerMap());
-
+        playerManager.setup();
         //events
         getServer().getPluginManager().registerEvents(new PlayerJoin(teamListManager, playerManager), this);
         //commands
@@ -34,5 +33,6 @@ public final class Teams extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         teamListManager.saveCustomFile();
+        playerManager.saveCustomFile();
     }
 }

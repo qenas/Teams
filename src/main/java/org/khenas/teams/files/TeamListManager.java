@@ -28,6 +28,7 @@ public class TeamListManager {
         file = new File(Bukkit.getServer().getPluginManager().getPlugin("Teams").getDataFolder(), "teamlist.yml");
         if(!file.exists()){ //if the file 'teamlist.yml' does not exist, this creates a new one.
             try{
+                System.out.println("Creating 'teamlist.yml' file...");
                 file.createNewFile();
                 customFile = YamlConfiguration.loadConfiguration(file);
                 getCustomFile().createSection(sectionKey);
@@ -42,7 +43,10 @@ public class TeamListManager {
         }
         customFile = YamlConfiguration.loadConfiguration(file);
         loadTeams();
+        saveCustomFile();
     }
+
+
 
     private void loadTeams(){
         teamMap.clear();
@@ -145,6 +149,7 @@ public class TeamListManager {
             team.addMember(member);
             team.setLeader(member.getPlayer());
             teamMap.put(teamName, team);
+            member.setTeam(team);
             leader.sendMessage(ChatColor.GREEN + "Team has been created successfully.");
             leader.sendMessage("Team created. The leader are -" + ChatColor.AQUA + leader.getName());
         } else {
@@ -226,6 +231,8 @@ public class TeamListManager {
                     }
                 }
             }
+        } else {
+            System.out.println("Error to load team-list file.");
         }
         return null; // null -> probably error.
     }
