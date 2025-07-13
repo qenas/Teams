@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Team {
     private String teamName;
-    private OfflinePlayer leader;
+    private Player leader;
     private  ArrayList<Member> members;
 
     //new team
@@ -19,7 +19,7 @@ public class Team {
         return members.size();
     }
 
-    public void setLeader(OfflinePlayer leader){
+    public void setLeader(Player leader){
         this.leader = leader;
     }
 
@@ -44,7 +44,7 @@ public class Team {
     }
 
     public boolean isLeader(Player other){
-        String leaderUUID = this.leader.getUniqueId().toString();
+        String leaderUUID = leader.getUniqueId().toString();
         String otherUUID = other.getUniqueId().toString();
         return leaderUUID.equals(otherUUID);
     }

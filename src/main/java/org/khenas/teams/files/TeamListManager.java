@@ -103,6 +103,7 @@ public class TeamListManager {
             noTeamMembers.add(newMemberUUID);
             noTeamSection.set("members", noTeamMembers);
             getNoTeam().addMember(member);
+            member.setTeam(getNoTeam());
         } else {
             System.out.println("Error: the player already have a team.");
         }
@@ -121,6 +122,7 @@ public class TeamListManager {
         if(noTeamMembers.contains(newMemberUUID)){
             noTeamMembers.remove(newMemberUUID);
             noTeamSection.set("members", noTeamMembers);
+            getNoTeam().removeMember(member);
         } else {
             System.out.println("Error to delete this player: the player is not on the members list.");
         }
@@ -147,28 +149,35 @@ public class TeamListManager {
             teamSection.set("members", members); //create a subsection on "team-list" named members
             Team team = new Team(teamName);
             team.addMember(member);
-            team.setLeader(member.getPlayer());
-            teamMap.put(teamName, team);
+            team.setLeader(leader);
             member.setTeam(team);
+            teamMap.put(teamName, team);
+            saveCustomFile();
+            removeFromTheNoTeam(member);
             leader.sendMessage(ChatColor.GREEN + "Team has been created successfully.");
             leader.sendMessage("Team created. The leader are -" + ChatColor.AQUA + leader.getName());
         } else {
             leader.sendMessage(ChatColor.RED + "Unavailable team name. Try with another name.");
         }
-        reloadCustomFile();
+
     }
 
     public void removeTeamFromTheList(Team teamToRemove){
         loadCustomFile();
-        ConfigurationSection teamList = customFile.getConfigurationSection(sectionKey);
-        if(teamList.contains(teamToRemove.getTeamName())){
-            for(Member member: teamToRemove.getMembers()){
+        if(customFile.contains(sectionKey + "." + teamToRemove.getTeamName())){
+            ArrayList<Member> membersCopy = new ArrayList<>(teamToRemove.getMembers());
+            for(Member member: membersCopy){
                 teamToRemove.removeMember(member);
-                member.setTeam(getNoTeam());
                 addToTheNoTeam(member);
             }
-            teamList.set(teamToRemove.getTeamName(), null);
+            System.out.println(customFile.getConfigurationSection(sectionKey).getKeys(false));
+            customFile.getConfigurationSection(sectionKey).set(teamToRemove.getTeamName(), null);
+            saveCustomFile();
+            System.out.println(customFile.getConfigurationSection(sectionKey).getKeys(false));
             teamMap.remove(teamToRemove.getTeamName());
+            System.out.println(teamMap.toString());
+        } else {
+            System.out.println("Error: the team does not exist on the archive.");
         }
         reloadCustomFile();
     }
@@ -298,7 +307,7 @@ public class TeamListManager {
         try{
             customFile.save(file);
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 

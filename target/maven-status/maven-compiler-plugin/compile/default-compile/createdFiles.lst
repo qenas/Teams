@@ -1,8 +1,9 @@
+org\khenas\teams\commands\TDisband.class
 org\khenas\teams\commands\TMyTeam.class
-org\khenas\teams\events\PlayerJoin.class
-org\khenas\teams\commands\TInvite.class
+org\khenas\teams\commands\InviteSystem.class
+org\khenas\teams\events\PlayerConnection.class
 org\khenas\teams\Teams.class
-org\khenas\teams\commands\TAdd.class
+org\khenas\teams\files\InvitationManager.class
 org\khenas\teams\events\PlayerListener.class
 org\khenas\teams\commands\TCreate.class
 org\khenas\teams\files\TeamListManager.class

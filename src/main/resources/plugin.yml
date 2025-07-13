@@ -8,6 +8,11 @@ commands:
     usage: "/tcreate [teamname]"
     permission: teams.command.member
     permission-message: "You do not have permission to use this command."
+  tdisband:
+    description: "Allows a player leader to remove his team."
+    usage: "/tdisband"
+    permission: teams.command.member
+    permission-message: "You do not have permission to use this command."
   tlist:
     description: "Show all the team in a list format."
     usage:  "/tlist"
