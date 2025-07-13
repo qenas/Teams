@@ -102,7 +102,7 @@ public class TeamListManager {
         } else {
             System.out.println("Error: the player already have a team.");
         }
-        reloadCustomFile();
+        saveCustomFile();
     }
 
     public void removeFromTheNoTeam(Member member){
@@ -120,7 +120,7 @@ public class TeamListManager {
         } else {
             System.out.println("Error to delete this player: the player is not on the members list.");
         }
-        reloadCustomFile();
+        saveCustomFile();
     }
 
     public void addTeamToTheList(Member member, String teamName){
@@ -213,23 +213,21 @@ public class TeamListManager {
     }
 
     public Team getTeamOfPlayer(Player player){
-        if(isOnTeam(player)){
-            loadCustomFile();
-            String playerUUID = player.getUniqueId().toString();
-            if(customFile.contains(sectionKey)){
-                ConfigurationSection sectionTeam = customFile.getConfigurationSection(sectionKey); //read the .yml file -> get the "team-list" section
-                for(String teamName : sectionTeam.getKeys(false)){
-                    ConfigurationSection teamSection = sectionTeam.getConfigurationSection(teamName); // team-list -> [team1, team2, ...] (subsections)
-                    ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
-                    for(int i = 0; i < memberUUIDs.size(); i++) {
-                        if(playerUUID.equals(memberUUIDs.get(i))){
-                            return getTeam(teamName); // true: player have team.
-                        }
+        loadCustomFile();
+        String playerUUID = player.getUniqueId().toString();
+        if(customFile.contains(sectionKey)){
+            ConfigurationSection sectionTeam = customFile.getConfigurationSection(sectionKey); //read the .yml file -> get the "team-list" section
+            for(String teamName : sectionTeam.getKeys(false)){
+                ConfigurationSection teamSection = sectionTeam.getConfigurationSection(teamName); // team-list -> [team1, team2, ...] (subsections)
+                ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
+                for(int i = 0; i < memberUUIDs.size(); i++) {
+                    if(playerUUID.equals(memberUUIDs.get(i))){
+                        return getTeam(teamName); // true: player have team.
                     }
                 }
             }
         }
-        return null;
+        return null; // null -> probably error.
     }
 
 

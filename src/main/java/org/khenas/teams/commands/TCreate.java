@@ -25,7 +25,9 @@ public class TCreate implements CommandExecutor {
             commandSender.sendMessage("Command only available for real players.");
             return true;
         }
+
         Player player = (Player) commandSender;
+
         if(!teamListManager.isOnTeam(player)){
             Member playerMember = playerManager.getMemberByUUID(player);
             if(strings.length == 0){
@@ -38,6 +40,7 @@ public class TCreate implements CommandExecutor {
         } else {
             player.sendMessage("You already have a team, buddy. Leave that one to create a new team.");
         }
+
         return true;
     }
 }

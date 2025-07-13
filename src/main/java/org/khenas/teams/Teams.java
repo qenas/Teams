@@ -18,11 +18,13 @@ public final class Teams extends JavaPlugin {
         //setup teamlist
         teamListManager.setup();
         teamListManager.saveCustomFile();
+
         PlayerManager playerManager = new PlayerManager(teamListManager.getPlayerMap());
+
         //events
         getServer().getPluginManager().registerEvents(new PlayerJoin(teamListManager, playerManager), this);
         //commands
-        getCommand("tadd").setExecutor(new TAdd());
+        //getCommand("tadd").setExecutor(new TAdd());
         getCommand("tlist").setExecutor(new TList(teamListManager));
         getCommand("tcreate").setExecutor(new TCreate(teamListManager, playerManager));
         getCommand("tmyteam").setExecutor(new TMyTeam(playerManager));

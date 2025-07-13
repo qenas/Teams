@@ -7,11 +7,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.khenas.teams.files.PlayerManager;
 import org.khenas.teams.files.TeamListManager;
+import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 
 
 public class PlayerJoin implements Listener {
-    //to-do: arreglar el bug de que sea null al ingresar. line: 21
     private TeamListManager teamListManager;
     private PlayerManager playerManager;
 
@@ -23,6 +23,7 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
+        //System.out.println(playerManager.getPlayerList().toString());
         if(playerManager.isOnPlayerMap(player)){ // the player already join at least one time to the server.
             Team teamOfPlayer = teamListManager.getTeamOfPlayer(player);
             if(teamOfPlayer == null){

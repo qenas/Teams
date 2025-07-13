@@ -21,13 +21,12 @@ public class PlayerManager {
         this.playerList = playerList;
     }
 
-    public void loadMembers(Team team, ArrayList<String> uuidList){
-        for(String uuidIndex: uuidList){
-            UUID uuid = UUID.fromString(uuidIndex);
-            OfflinePlayer offPlayer = Bukkit.getOfflinePlayer(uuid);
-            Member memberToAdd = new Member(team, offPlayer);
-            team.addMember(memberToAdd);
-        }
+    public ArrayList<UUID> getPlayerList(){
+        return playerList;
+    }
+
+    private void loadMember(UUID playerUUID, Member memberPlayer){
+
     }
 
     public void setupMember(Team team, Player player){
