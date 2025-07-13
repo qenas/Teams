@@ -158,15 +158,33 @@ public class TeamListManager {
         reloadCustomFile();
     }
 
-    public void addToTeam(Member member, Team team){
-        if(teamMap.containsKey(team.getTeamName())){
-            team.addMember(member);
-            member.getPlayer().sendMessage("You has been added to: " + ChatColor.GREEN + team.getTeamName());
-            member.setTeam(team);
-            removeFromTheNoTeam(member);
-        } else {
-            System.out.println("Invalid team or error to load.");
+    public void removeTeamFromTheList(Member leader, String teamName){
+        Team teamToRemove = getTeam(teamName);
+        if(teamToRemove.isLeader(leader.getPlayer())){
+
         }
+    }
+
+    public void addToTeam(Member member, Team team){
+        loadCustomFile();
+        if(customFile.contains(sectionKey + "." + team.getTeamName())){
+            if(teamMap.containsKey(team.getTeamName())){
+                ConfigurationSection teamSection = customFile.getConfigurationSection(sectionKey + "." + team.getTeamName());
+                ArrayList<String> teamMembers = (ArrayList<String>) teamSection.getStringList("members");
+                teamMembers.add(member.getPlayer().getUniqueId().toString());
+                System.out.println(team.getTeamName() + ": " + teamMembers.toString());
+                teamSection.set("members", teamMembers);
+                team.addMember(member);
+                member.getPlayer().sendMessage("You has been added to: " + ChatColor.GREEN + team.getTeamName());
+                member.setTeam(team);
+                removeFromTheNoTeam(member);
+            } else {
+                System.out.println("Invalid team or error to load.");
+            }
+        } else {
+            System.out.println("Error: the team does not exist on the archive.");
+        }
+        reloadCustomFile();
     }
 
     /*public void addToTeam(Player leader, Player playerToAdd){
@@ -247,11 +265,6 @@ public class TeamListManager {
         }
         return null; // null -> probably error.
     }
-
-    public ArrayList<Member> getMembersList(Team team){
-        return teamMap.get(team.getTeamName()).getMembers();
-    }
-
 
     public Team getTeam(String teamName){
         return teamMap.get(teamName);

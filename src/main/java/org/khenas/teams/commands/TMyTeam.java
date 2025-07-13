@@ -35,6 +35,7 @@ public class TMyTeam implements CommandExecutor {
                 player.sendMessage(ChatColor.YELLOW + "Leader: " + ChatColor.WHITE + playerTeam.getLeader().getName());
                 player.sendMessage(ChatColor.YELLOW + "Members online: " + ChatColor.GREEN + playerTeam.getOnlineMembersStringList());
                 player.sendMessage(ChatColor.YELLOW + "Members offline: " + ChatColor.RED + playerTeam.getOfflineMembersStringList());
+                player.sendMessage(ChatColor.YELLOW + "Number of members: " + ChatColor.WHITE + playerTeam.getMembersCount());
             } else {
                 player.sendMessage("You do not have a team, buddy.");
             }
