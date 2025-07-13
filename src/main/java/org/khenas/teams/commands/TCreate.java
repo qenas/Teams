@@ -35,7 +35,6 @@ public class TCreate implements CommandExecutor {
             } else {
                 String teamName = strings[0];
                 teamListManager.addTeamToTheList(playerMember, teamName);
-                teamListManager.removeFromTheNoTeam(playerMember);
             }
         } else {
             player.sendMessage("You already have a team, buddy. Leave that one to create a new team.");

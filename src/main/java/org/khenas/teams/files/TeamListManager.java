@@ -163,6 +163,7 @@ public class TeamListManager {
             team.addMember(member);
             member.getPlayer().sendMessage("You has been added to: " + ChatColor.GREEN + team.getTeamName());
             member.setTeam(team);
+            removeFromTheNoTeam(member);
         } else {
             System.out.println("Invalid team or error to load.");
         }
@@ -245,6 +246,10 @@ public class TeamListManager {
             System.out.println("Error to load team-list file.");
         }
         return null; // null -> probably error.
+    }
+
+    public ArrayList<Member> getMembersList(Team team){
+        return teamMap.get(team.getTeamName()).getMembers();
     }
 
 

@@ -66,11 +66,6 @@ public class PlayerManager {
         }
     }
 
-
-    public ArrayList<UUID> getPlayerList(){
-        return playerList;
-    }
-
     public boolean isPlayerListEmpty(){
         if(playerList.size() == 0){
             System.out.println("PlayerManager: PlayerList is empty...");
@@ -90,15 +85,9 @@ public class PlayerManager {
 
     public void removeOnlineMember(Player player){
         UUID uuidMember = player.getUniqueId();
+        onlineMembers.get(uuidMember).setOnline(false);
         onlineMembers.remove(uuidMember);
-        System.out.println("Removing " + player.getName() + "from the 'onlineMembers' map");
-    }
-
-    public boolean isOnline(Player player){
-        if(getMemberByUUID(player) != null){
-            return true;
-        }
-        return false;
+        System.out.println("Removing " + player.getName() + "from the 'onlineMembers' map.");
     }
 
     public boolean isOnPlayerList(Player player){ // if is on the array of previous joined members

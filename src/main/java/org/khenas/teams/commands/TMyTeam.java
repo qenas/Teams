@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.khenas.teams.files.PlayerManager;
 import org.khenas.teams.files.TeamListManager;
 import org.khenas.teams.parts.Member;
+import org.khenas.teams.parts.Team;
 
 public class TMyTeam implements CommandExecutor {
     private PlayerManager playerManager;
@@ -28,8 +29,12 @@ public class TMyTeam implements CommandExecutor {
         Member playerMember = playerManager.getMemberByUUID(player); //converts the Player to a Member type by his UUID
 
         if(playerMember != null) {
-            if(!playerMember.getTeam().equals(TeamListManager.getNoTeam())){
-                player.sendMessage(ChatColor.WHITE + "You are on the " + ChatColor.BOLD+ ChatColor.RED + playerMember.getTeam().getTeamName());
+            Team playerTeam = playerMember.getTeam();
+            if(!playerTeam.equals(TeamListManager.getNoTeam())){
+                player.sendMessage("-------------------- " + ChatColor.RED + ChatColor.RED + playerTeam.getTeamName() + ChatColor.WHITE + " --------------------");
+                player.sendMessage(ChatColor.YELLOW + "Leader: " + ChatColor.WHITE + playerTeam.getLeader().getName());
+                player.sendMessage(ChatColor.YELLOW + "Members online: " + ChatColor.GREEN + playerTeam.getOnlineMembersStringList());
+                player.sendMessage(ChatColor.YELLOW + "Members offline: " + ChatColor.RED + playerTeam.getOfflineMembersStringList());
             } else {
                 player.sendMessage("You do not have a team, buddy.");
             }

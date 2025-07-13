@@ -1,16 +1,17 @@
 package org.khenas.teams.parts;
 
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 
 public class Member implements Listener {
     private Team team;
     private Player player;
+    private boolean online;
 
     public Member(Team team, Player player){
         this.team = team;
         this.player = player;
+        this.online = true;
     }
 
     public void setPlayer(Player player){
@@ -23,6 +24,14 @@ public class Member implements Listener {
 
     public void setTeam(Team team){
         this.team = team;
+    }
+
+    public void setOnline(boolean state){
+        this.online = state;
+    }
+
+    public boolean isOnline(){
+        return online;
     }
 
     public Team getTeam(){

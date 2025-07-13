@@ -6,7 +6,7 @@
 
     <groupId>org.khenas</groupId>
     <artifactId>Teams</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.2</version>
     <packaging>jar</packaging>
 
     <name>Teams</name>

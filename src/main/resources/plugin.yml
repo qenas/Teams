@@ -1,35 +1,35 @@
 name: Teams
-version: '0.1.0'
+version: '0.1.2'
 main: org.khenas.teams.Teams
 api-version: '1.21'
 commands:
   tcreate:
     description: "Create a team, the leader will be the command sender."
     usage: "/tcreate [teamname]"
-    permission: teams.command.create
+    permission: teams.command.member
     permission-message: "You do not have permission to use this command."
   tlist:
     description: "Show all the team in a list format."
     usage:  "/tlist"
-    permission: teams.command.list
+    permission: teams.command.member
     permission-message: "You do not have permission to use this command."
   tmyteam:
     description: "Show the team of the invocator's command"
     usage: "/tmyteam"
-    permission: teams.command.myteam
+    permission: teams.command.member
     permission-message: "You do not have permission to use this command."
   tinvite:
     description: "Add a member to a team."
     usage: "/tinvite [playername]"
-    permission: teams.command.add
+    permission: teams.command.leader
     permission-message: "You do not have permission to use this command."
   taccept:
     description: "Add a member to a team."
     usage: "/taccept"
-    permission: teams.command.add
+    permission: teams.command.member
     permission-message: "You do not have permission to use this command."
   tdeny:
     description: "Add a member to a team."
     usage: "/taccept"
-    permission: teams.command.add
+    permission: teams.command.member
     permission-message: "You do not have permission to use this command."

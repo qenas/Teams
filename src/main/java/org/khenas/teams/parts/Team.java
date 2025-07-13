@@ -1,4 +1,5 @@
 package org.khenas.teams.parts;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
@@ -42,14 +43,44 @@ public class Team {
         return teamName;
     }
 
-    public boolean isLeader(Member other){
+    public boolean isLeader(Player other){
         String leaderUUID = this.leader.getUniqueId().toString();
-        String otherUUID = other.getPlayer().getUniqueId().toString();
+        String otherUUID = other.getUniqueId().toString();
         return leaderUUID.equals(otherUUID);
     }
 
     public ArrayList<Member> getMembers(){
         return members;
+    }
+
+    public String getOnlineMembersStringList(){
+        StringBuilder cad = new StringBuilder();
+        for(Member member: getMembers()){
+            if(member.isOnline()){
+                cad.append(member.getPlayer().getName()).append(", ");
+            }
+        }
+
+        if(!getMembers().isEmpty()){
+            cad.setLength(cad.length() - 2);
+        }
+
+        return cad.toString();
+    }
+
+    public String getOfflineMembersStringList(){
+        StringBuilder cad = new StringBuilder();
+        for(Member member: getMembers()){
+            if(!member.isOnline()){
+                cad.append(member.getPlayer().getName()).append(", ");
+            }
+        }
+
+        if(!getMembers().isEmpty()){
+            cad.setLength(cad.length() - 2);
+        }
+
+        return cad.toString();
     }
 
     public boolean equals(Team other){
