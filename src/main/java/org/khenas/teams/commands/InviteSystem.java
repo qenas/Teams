@@ -18,7 +18,7 @@ public class InviteSystem implements CommandExecutor  {
     private PlayerManager playerManager;
     private TeamListManager teamListManager;
 
-    public InviteSystem(InvitationManager invitationManager, PlayerManager playerManager, TeamListManager teamListManager){
+    public InviteSystem(InvitationManager invitationManager, TeamListManager teamListManager, PlayerManager playerManager){
         this.invitationManager = invitationManager;
         this.playerManager = playerManager;
         this.teamListManager = teamListManager;
@@ -50,7 +50,7 @@ public class InviteSystem implements CommandExecutor  {
         }
 
         //taccept
-        if(command.getName().equalsIgnoreCase(tAccept)){
+        if(command.getName().equalsIgnoreCase(tAccept) && args.length == 0){
             Player playerTarget = (Player) sender;
             if(invitationManager.hasInvite(playerTarget)){
                 Player playerToAccept = invitationManager.getSender(playerTarget);
@@ -63,10 +63,12 @@ public class InviteSystem implements CommandExecutor  {
             } else {
                 playerTarget.sendMessage("You do not have any pending invitation, mate.");
             }
+        } else {
+            return true;
         }
 
         //tdeny
-        if(command.getName().equalsIgnoreCase(tDeny)){
+        if(command.getName().equalsIgnoreCase(tDeny) && args.length == 0){
             Player playerTarget = (Player) sender;
             if(invitationManager.hasInvite(playerTarget)){
                 Player playerToAccept = invitationManager.getSender(playerTarget);
@@ -79,7 +81,10 @@ public class InviteSystem implements CommandExecutor  {
             } else {
                 playerTarget.sendMessage("You do not have any pending invitation, mate.");
             }
+        } else {
+            return true;
         }
+
         return false;
     }
 }
