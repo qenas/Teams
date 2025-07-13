@@ -37,6 +37,7 @@ public class TMyTeam implements CommandExecutor {
         } else {
             System.out.println("Error: member does not exist.");
         }
+
         return true;
     }
 }
