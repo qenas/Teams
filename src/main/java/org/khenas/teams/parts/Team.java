@@ -1,5 +1,4 @@
 package org.khenas.teams.parts;
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
@@ -8,15 +7,17 @@ public class Team {
     private String teamName;
     private OfflinePlayer leader;
     private  ArrayList<Member> members;
+    private int membersCount;
 
     //new team
     public Team(String teamName){
         this.teamName = teamName;
         members = new ArrayList<>();
+        membersCount = 0;
     }
 
     public int getMembersCount(){
-        return members.size();
+        return this.membersCount;
     }
 
     public void setLeader(OfflinePlayer leader){
@@ -29,6 +30,7 @@ public class Team {
 
     public void addMember(Member newMember){
         members.add(newMember);
+        membersCount++;
     }
 
     public void removeMember(Member oldMember){
@@ -63,11 +65,7 @@ public class Team {
 
 
         if(!getMembers().isEmpty()){
-            if(cad.isEmpty()){
-                return "No body is online right now.";
-            } else {
-                cad.setLength(cad.length() - 2);
-            }
+            cad.setLength(cad.length() - 2);
         }
 
         return cad.toString();
@@ -82,11 +80,7 @@ public class Team {
         }
 
         if(!getMembers().isEmpty()){
-            if(cad.isEmpty()){
-                return "All the members are online right now.";
-            } else {
-                cad.setLength(cad.length() - 2);
-            }
+            cad.setLength(cad.length() - 2);
         }
 
         return cad.toString();

@@ -11,7 +11,7 @@ public class Member implements Listener {
     public Member(Team team, Player player){
         this.team = team;
         this.player = player;
-        this.online = true;
+        this.online = player.isOnline();
     }
 
     public void setPlayer(Player player){

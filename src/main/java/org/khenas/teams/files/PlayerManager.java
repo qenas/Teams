@@ -75,7 +75,9 @@ public class PlayerManager {
     }
 
     public void setupMember(Team team, Player player){
-        addOnlineMember(new Member(team, player));
+        Member newMember = new Member(team, player);
+        addOnlineMember(newMember);
+        team.addMember(newMember);
     }
 
     public void addOnlineMember(Member member){
@@ -85,9 +87,9 @@ public class PlayerManager {
 
     public void removeOnlineMember(Player player){
         UUID uuidMember = player.getUniqueId();
-        onlineMembers.get(uuidMember).setOnline(false);
+        onlineMembers.get(uuidMember).setOnline(player.isOnline());
         onlineMembers.remove(uuidMember);
-        System.out.println("Removing " + player.getName() + "from the 'onlineMembers' map.");
+        System.out.println("Removing " + player.getName() + " from the 'onlineMembers' map.");
     }
 
     public boolean isOnPlayerList(Player player){ // if is on the array of previous joined members

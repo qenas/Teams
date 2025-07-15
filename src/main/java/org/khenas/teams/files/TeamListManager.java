@@ -61,9 +61,11 @@ public class TeamListManager {
                     playerMap.add(UUID.fromString(uuid));
                 }
                 String leaderUUID = teamSection.getString("leader");
-                if(!leaderUUID.isEmpty()){
-                    OfflinePlayer leader = Bukkit.getPlayer(leaderUUID);
+                System.out.println(leaderUUID);
+                if(!leaderUUID.isEmpty() && !teamName.equals("no-team")){
+                    OfflinePlayer leader = Bukkit.getOfflinePlayer(UUID.fromString(leaderUUID));
                     team.setLeader(leader);
+                    System.out.println(leader.getName());
                 }
                 teamMap.put(teamName, team);
             }
