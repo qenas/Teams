@@ -29,8 +29,16 @@ public class Team {
     }
 
     public void addMember(Member newMember){
-        members.add(newMember);
-        membersCount++;
+        boolean isOnTheTeam = false;
+        for(Member member: members){
+            if(member.getPlayer().getUniqueId().equals(newMember.getPlayer().getUniqueId())){
+                isOnTheTeam = true;
+            }
+        }
+        if(!isOnTheTeam){
+            members.add(newMember);
+            membersCount++;
+        }
     }
 
     public void removeMember(Member oldMember){
@@ -65,7 +73,11 @@ public class Team {
 
 
         if(!getMembers().isEmpty()){
-            cad.setLength(cad.length() - 2);
+            if(cad.isEmpty()){
+                return "All the members are offline right now.";
+            } else {
+                cad.setLength(cad.length() - 2);
+            }
         }
 
         return cad.toString();
@@ -80,7 +92,11 @@ public class Team {
         }
 
         if(!getMembers().isEmpty()){
-            cad.setLength(cad.length() - 2);
+            if(cad.isEmpty()){
+                return "All the members are online right now.";
+            } else {
+                cad.setLength(cad.length() - 2);
+            }
         }
 
         return cad.toString();
