@@ -78,6 +78,7 @@ public class PlayerManager {
         Member newMember = new Member(team, player);
         addOnlineMember(newMember);
         team.addMember(newMember);
+        System.out.println("Adding " + player.getName() + " from the 'onlineMembers' map.");
     }
 
     public void addOnlineMember(Member member){

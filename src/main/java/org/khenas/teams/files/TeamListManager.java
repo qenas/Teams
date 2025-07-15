@@ -162,7 +162,8 @@ public class TeamListManager {
         } else {
             leader.sendMessage(ChatColor.RED + "Unavailable team name. Try with another name.");
         }
-
+        System.out.println("The team '" + teamName + " has been add successfully to the list.");
+        reloadCustomFile();
     }
 
     public void removeTeamFromTheList(Team teamToRemove){
@@ -173,15 +174,13 @@ public class TeamListManager {
                 teamToRemove.removeMember(member);
                 addToTheNoTeam(member);
             }
-            System.out.println(customFile.getConfigurationSection(sectionKey).getKeys(false));
             customFile.getConfigurationSection(sectionKey).set(teamToRemove.getTeamName(), null);
             saveCustomFile();
-            System.out.println(customFile.getConfigurationSection(sectionKey).getKeys(false));
             teamMap.remove(teamToRemove.getTeamName());
-            System.out.println(teamMap.toString());
         } else {
             System.out.println("Error: the team does not exist on the archive.");
         }
+        System.out.println("The team '" + teamToRemove + " has been remove successfully from the list.");
         reloadCustomFile();
     }
 
