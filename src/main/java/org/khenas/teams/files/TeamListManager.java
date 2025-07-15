@@ -2,6 +2,7 @@ package org.khenas.teams.files;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -59,9 +60,9 @@ public class TeamListManager {
                 for(String uuid: memberUUIDs){ // loads all the existing UUID from the YML archive to the array
                     playerMap.add(UUID.fromString(uuid));
                 }
-                String leaderName = teamSection.getString("leader");
-                if(!leaderName.isEmpty()){
-                    Player leader = Bukkit.getPlayer(leaderName);
+                String leaderUUID = teamSection.getString("leader");
+                if(!leaderUUID.isEmpty()){
+                    OfflinePlayer leader = Bukkit.getPlayer(leaderUUID);
                     team.setLeader(leader);
                 }
                 teamMap.put(teamName, team);
@@ -140,7 +141,7 @@ public class TeamListManager {
                 break;
             }
         }
-        Player leader = (Player) member.getPlayer();
+        Player leader = member.getPlayer();
         if(!teamExists){ //if the team does not exist, this will create a new subsection for it.
             ConfigurationSection teamSection = customFile.createSection(sectionKey + "." + teamName); //read the .yml file -> get the "team-list" section
             teamSection.set("leader", leader.getUniqueId().toString()); //create a subsection on "team-list" named leader

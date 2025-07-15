@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Team {
     private String teamName;
-    private Player leader;
+    private OfflinePlayer leader;
     private  ArrayList<Member> members;
 
     //new team
@@ -19,12 +19,12 @@ public class Team {
         return members.size();
     }
 
-    public void setLeader(Player leader){
+    public void setLeader(OfflinePlayer leader){
         this.leader = leader;
     }
 
     public Player getLeader(){
-        return (Player) this.leader;
+        return leader.getPlayer();
     }
 
     public void addMember(Member newMember){
@@ -61,8 +61,13 @@ public class Team {
             }
         }
 
+
         if(!getMembers().isEmpty()){
-            cad.setLength(cad.length() - 2);
+            if(cad.isEmpty()){
+                return "No body is online right now.";
+            } else {
+                cad.setLength(cad.length() - 2);
+            }
         }
 
         return cad.toString();
@@ -77,7 +82,11 @@ public class Team {
         }
 
         if(!getMembers().isEmpty()){
-            cad.setLength(cad.length() - 2);
+            if(cad.isEmpty()){
+                return "All the members are online right now.";
+            } else {
+                cad.setLength(cad.length() - 2);
+            }
         }
 
         return cad.toString();

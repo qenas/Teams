@@ -29,12 +29,12 @@ commands:
     permission: teams.command.leader
     permission-message: "You do not have permission to use this command."
   taccept:
-    description: "Add a member to a team."
+    description: "Accept an invitation."
     usage: "/taccept"
     permission: teams.command.member
     permission-message: "You do not have permission to use this command."
   tdeny:
-    description: "Add a member to a team."
-    usage: "/taccept"
+    description: "Decline an invitation."
+    usage: "/tdeny"
     permission: teams.command.member
     permission-message: "You do not have permission to use this command."

@@ -39,11 +39,11 @@ public class InviteSystem implements CommandExecutor  {
                 if(teamListManager.getTeamOfPlayer(playerSender).isLeader(playerSender)){ // checks if the sender is the leader of the team
                     if(args.length > 0){
                         Player playerTarget = Bukkit.getPlayerExact(args[0]);
-                        if(teamListManager.isOnTeam(playerTarget)){ // checks if the target already has a team.
+                        if(!teamListManager.isOnTeam(playerTarget)){ // checks if the target already has a team.
                             invitationManager.addInvite(playerSender, playerTarget);
                             playerSender.sendMessage("Your invitation has been sent to " + ChatColor.GREEN + playerTarget.getName() + ChatColor.WHITE + ". He must either decline or accept it.");
                             playerTarget.sendMessage(ChatColor.GREEN + playerSender.getName() + " has sent you a invitation for " + ChatColor.RED + playerManager.getMemberByUUID(playerSender).getTeam().getTeamName());
-                            playerTarget.sendMessage("Use " + ChatColor.GREEN + tAccept + ChatColor.WHITE + " to accept the invitation or use " + ChatColor.RED + tDeny + ChatColor.WHITE + " to decline the invitation.");
+                            playerTarget.sendMessage("Use " + ChatColor.GREEN + "/" + tAccept + ChatColor.WHITE + " to accept the invitation or use " + ChatColor.RED + "/" + tDeny + ChatColor.WHITE + " to decline the invitation.");
                         } else {
                             playerSender.sendMessage("You can not invite the player " + ChatColor.GREEN + playerTarget.getName() + ChatColor.WHITE + " because he already has a team.");
                         }
