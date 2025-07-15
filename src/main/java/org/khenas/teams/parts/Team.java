@@ -42,10 +42,17 @@ public class Team {
     }
 
     public void removeMember(Member oldMember){
+        boolean isOnTheTeam = true;
+        int index = 0;
         for(int i = 0; i < members.size(); i++){
             if(oldMember.getPlayer().equals(members.get(i).getPlayer())){
-                members.remove(i);
+                isOnTheTeam = false;
+                index = i;
             }
+        }
+        if(isOnTheTeam){
+            members.remove(index);
+            membersCount--;
         }
     }
 

@@ -180,7 +180,7 @@ public class TeamListManager {
         } else {
             System.out.println("Error: the team does not exist on the archive.");
         }
-        System.out.println("The team '" + teamToRemove + " has been remove successfully from the list.");
+        System.out.println("The team '" + teamToRemove.getTeamName() + " has been remove successfully from the list.");
         reloadCustomFile();
     }
 

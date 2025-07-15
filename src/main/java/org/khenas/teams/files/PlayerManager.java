@@ -107,7 +107,7 @@ public class PlayerManager {
                 return member;
             }
         }
-        return null; // returns null if the player does not have a object member associated.
+        return null; // returns null if the player does not have an object member associated.
     }
 
     public FileConfiguration getCustomFile(){
