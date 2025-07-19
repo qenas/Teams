@@ -1,25 +1,27 @@
 package org.khenas.teams.parts;
 
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 public class Member {
     private Team team;
-    private OfflinePlayer player;
+    private UUID player;
     private boolean online;
 
-    public Member(Team team, OfflinePlayer player){
+    public Member(Team team, UUID player){
         this.team = team;
         this.player = player;
-        this.online = player.isOnline();
     }
 
-    public void setPlayer(Player player){
+    public void setPlayer(UUID player){
         this.player = player;
     }
 
     public OfflinePlayer getPlayer(){
-        return player;
+        return Bukkit.getOfflinePlayer(player);
     }
 
     public void setTeam(Team team){

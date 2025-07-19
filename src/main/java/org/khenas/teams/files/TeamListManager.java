@@ -65,7 +65,7 @@ public class TeamListManager {
                 ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
                 for(String uuid: memberUUIDs){ // loads all the existing UUID from the YML archive to the array
                     playerMap.add(UUID.fromString(uuid));
-                    playerManager.setupMember(team, Bukkit.getOfflinePlayer(uuid));
+                    playerManager.setupMember(team, UUID.fromString(uuid));
                 }
                 String leaderUUID = teamSection.getString("leader");
                 if(!leaderUUID.isEmpty() && !teamName.equals("no-team")){

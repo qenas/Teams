@@ -25,19 +25,23 @@ public class PlayerConnection implements Listener {
         Player player = event.getPlayer();
         //System.out.println(playerManager.getPlayerList().toString());
         if(playerManager.isPlayerListEmpty()){ // empty list, first joined player ever
-            playerManager.addUUIDtoArchive(player);
+            playerFirstJoin(player);
         } else {
             if(playerManager.isOnPlayerList(player)) { // the player already join at least one time to the server.
-                Team teamOfPlayer = teamListManager.getTeamOfPlayer(player);
-                if (teamOfPlayer == null) {
-                    System.out.println("Error to load the team of this player: " + player.getName() + "/" + player.getUniqueId());
-                } else {
-                    playerManager.removeOfflineMember(player);
-                    if (teamOfPlayer.equals(teamListManager.getNoTeam())) {
-                        player.sendMessage("You do not have a team, buddy.");
+                if(playerManager.getMemberByUUID(player) != null) {
+                    playerManager.setMemberOnline(player);
+                    Team teamOfPlayer = teamListManager.getTeamOfPlayer(player);
+                    if (teamOfPlayer == null) {
+                        System.out.println("Error to load the team of this player: " + player.getName() + "/" + player.getUniqueId());
                     } else {
-                        player.sendMessage("Your team is: " + ChatColor.RED + teamOfPlayer.getTeamName());
+                        if (teamOfPlayer.equals(teamListManager.getNoTeam())) {
+                            player.sendMessage("You do not have a team, buddy.");
+                        } else {
+                            player.sendMessage("Your team is: " + ChatColor.RED + teamOfPlayer.getTeamName());
+                        }
                     }
+                } else {
+                    System.out.println("Error: no object member is associated to this player.");
                 }
             } else { // The player joins for the first time at the server.
                 playerFirstJoin(player);
@@ -48,19 +52,15 @@ public class PlayerConnection implements Listener {
     @EventHandler
     public void onPlayerLeaves(PlayerQuitEvent event){
         Player player = event.getPlayer();
-        playerManager.removeOnlineMember(player);
+        playerManager.setMemberOffline(player);
     }
 
 
     private void playerFirstJoin(Player player){
         playerManager.addUUIDtoArchive(player);
-        if(!player.hasPlayedBefore()){
-            playerManager.setupMember(TeamListManager.getNoTeam(), player);
-            teamListManager.addToTheNoTeam(playerManager.getMemberByUUID(player));
-            System.out.println(player.getName() + " first time joining the server. Added to the 'no-team' list.");
-            player.sendMessage("Welcome, " + player.getName() + ". You do not have a team, try with joining a created one or create your own team.");
-        } else {
-            System.out.println("Error: the player already played on this server.");
-        }
+        playerManager.setupMember(TeamListManager.getNoTeam(), player.getUniqueId());
+        teamListManager.addToTheNoTeam(playerManager.getMemberByUUID(player));
+        System.out.println(player.getName() + " first time joining the server. Added to the 'no-team' list.");
+        player.sendMessage("Welcome, " + player.getName() + ". You do not have a team, try with joining a created one or create your own team.");
     }
 }
