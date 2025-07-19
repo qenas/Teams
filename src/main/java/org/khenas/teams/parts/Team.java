@@ -2,22 +2,21 @@ package org.khenas.teams.parts;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Team {
-    private String teamName;
+    private final String teamName;
     private OfflinePlayer leader;
-    private  ArrayList<Member> members;
-    private int membersCount;
+    private final ArrayList<Member> members;
 
     //new team
     public Team(String teamName){
         this.teamName = teamName;
         members = new ArrayList<>();
-        membersCount = 0;
     }
 
     public int getMembersCount(){
-        return this.membersCount;
+        return members.size();
     }
 
     public void setLeader(OfflinePlayer leader){
@@ -37,7 +36,6 @@ public class Team {
         }
         if(!isOnTheTeam){
             members.add(newMember);
-            membersCount++;
         }
     }
 
@@ -52,9 +50,9 @@ public class Team {
         }
         if(isOnTheTeam){
             members.remove(index);
-            membersCount--;
         }
     }
+
 
     public String getTeamName(){
         return teamName;

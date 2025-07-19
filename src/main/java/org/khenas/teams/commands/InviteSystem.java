@@ -64,6 +64,7 @@ public class InviteSystem implements CommandExecutor  {
             } else {
                 playerSender.sendMessage("You do not have a team, buddy.");
             }
+            return true;
         }
 
         //taccept
@@ -90,7 +91,6 @@ public class InviteSystem implements CommandExecutor  {
             } else {
                 playerTarget.sendMessage("You do not have any pending invitation, mate.");
             }
-        } else {
             return true;
         }
 
@@ -118,7 +118,6 @@ public class InviteSystem implements CommandExecutor  {
             } else {
                 playerTarget.sendMessage("You do not have any pending invitation, mate.");
             }
-        } else {
             return true;
         }
 

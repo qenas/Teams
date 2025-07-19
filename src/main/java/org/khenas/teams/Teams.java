@@ -9,8 +9,8 @@ import org.khenas.teams.files.TeamListManager;
 
 
 public final class Teams extends JavaPlugin {
-    private TeamListManager teamListManager = new TeamListManager();
     private PlayerManager playerManager = new PlayerManager();
+    private TeamListManager teamListManager = new TeamListManager(playerManager);
     private InvitationManager invitationManager = new InvitationManager();
 
     @Override

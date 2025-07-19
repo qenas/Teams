@@ -24,15 +24,15 @@ public class PlayerConnection implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         //System.out.println(playerManager.getPlayerList().toString());
-        if(playerManager.isPlayerListEmpty()){
-            playerJoining(player);
+        if(playerManager.isPlayerListEmpty()){ // empty list, first joined player ever
+            playerManager.addUUIDtoArchive(player);
         } else {
             if(playerManager.isOnPlayerList(player)) { // the player already join at least one time to the server.
                 Team teamOfPlayer = teamListManager.getTeamOfPlayer(player);
                 if (teamOfPlayer == null) {
                     System.out.println("Error to load the team of this player: " + player.getName() + "/" + player.getUniqueId());
                 } else {
-                    playerManager.setupMember(teamOfPlayer, player);
+                    playerManager.removeOfflineMember(player);
                     if (teamOfPlayer.equals(teamListManager.getNoTeam())) {
                         player.sendMessage("You do not have a team, buddy.");
                     } else {
@@ -40,7 +40,7 @@ public class PlayerConnection implements Listener {
                     }
                 }
             } else { // The player joins for the first time at the server.
-               playerJoining(player);
+                playerFirstJoin(player);
             }
         }
     }
@@ -52,11 +52,15 @@ public class PlayerConnection implements Listener {
     }
 
 
-    private void playerJoining(Player player){
+    private void playerFirstJoin(Player player){
         playerManager.addUUIDtoArchive(player);
-        playerManager.setupMember(teamListManager.getNoTeam(), player);
-        teamListManager.addToTheNoTeam(playerManager.getMemberByUUID(player));
-        System.out.println(player.getName() + " first time joining the server. Added to the 'no-team' list.");
-        player.sendMessage("Welcome, " + player.getName() + ". You do not have a team, try with joining a created one or create your own team.");
+        if(!player.hasPlayedBefore()){
+            playerManager.setupMember(TeamListManager.getNoTeam(), player);
+            teamListManager.addToTheNoTeam(playerManager.getMemberByUUID(player));
+            System.out.println(player.getName() + " first time joining the server. Added to the 'no-team' list.");
+            player.sendMessage("Welcome, " + player.getName() + ". You do not have a team, try with joining a created one or create your own team.");
+        } else {
+            System.out.println("Error: the player already played on this server.");
+        }
     }
 }

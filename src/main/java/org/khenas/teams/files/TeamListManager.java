@@ -22,7 +22,12 @@ public class TeamListManager {
     private File file;
     private FileConfiguration customFile;
     private ArrayList<UUID> playerMap = new ArrayList<>();
+    private PlayerManager playerManager;
     private static Map<String, Team> teamMap = new HashMap<>();
+
+    public TeamListManager(PlayerManager playerManager) {
+        this.playerManager = playerManager;
+    }
 
     //finds or generates the configuration file
     public void setup(){
@@ -60,6 +65,7 @@ public class TeamListManager {
                 ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
                 for(String uuid: memberUUIDs){ // loads all the existing UUID from the YML archive to the array
                     playerMap.add(UUID.fromString(uuid));
+                    playerManager.setupMember(team, Bukkit.getOfflinePlayer(uuid));
                 }
                 String leaderUUID = teamSection.getString("leader");
                 if(!leaderUUID.isEmpty() && !teamName.equals("no-team")){
@@ -143,7 +149,7 @@ public class TeamListManager {
                 break;
             }
         }
-        Player leader = member.getPlayer();
+        Player leader = (Player) member.getPlayer();
         if(!teamExists){ //if the team does not exist, this will create a new subsection for it.
             ConfigurationSection teamSection = customFile.createSection(sectionKey + "." + teamName); //read the .yml file -> get the "team-list" section
             teamSection.set("leader", leader.getUniqueId().toString()); //create a subsection on "team-list" named leader
@@ -194,7 +200,9 @@ public class TeamListManager {
                 System.out.println(team.getTeamName() + ": " + teamMembers.toString());
                 teamSection.set("members", teamMembers);
                 team.addMember(member);
-                member.getPlayer().sendMessage("You has been added to: " + ChatColor.GREEN + team.getTeamName());
+                reloadCustomFile();
+                Player playerMember = (Player) member.getPlayer();
+                playerMember.sendMessage("You has been added to: " + ChatColor.GREEN + team.getTeamName());
                 member.setTeam(team);
                 removeFromTheNoTeam(member);
             } else {
@@ -203,7 +211,7 @@ public class TeamListManager {
         } else {
             System.out.println("Error: the team does not exist on the archive.");
         }
-        reloadCustomFile();
+
     }
 
     /*public void addToTeam(Player leader, Player playerToAdd){
