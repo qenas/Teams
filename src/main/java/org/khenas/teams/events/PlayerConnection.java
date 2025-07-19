@@ -57,7 +57,7 @@ public class PlayerConnection implements Listener {
 
 
     private void playerFirstJoin(Player player){
-        playerManager.addUUIDtoArchive(player);
+        playerManager.addUUIDtoArchive(player.getUniqueId());
         playerManager.setupMember(TeamListManager.getNoTeam(), player.getUniqueId());
         teamListManager.addToTheNoTeam(playerManager.getMemberByUUID(player));
         System.out.println(player.getName() + " first time joining the server. Added to the 'no-team' list.");

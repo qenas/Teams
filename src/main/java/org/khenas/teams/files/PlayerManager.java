@@ -41,11 +41,11 @@ public class PlayerManager {
         saveCustomFile();
     }
 
-    public void addUUIDtoArchive(Player player){
+    public void addUUIDtoArchive(UUID player){
         loadCustomFile();
         ArrayList<String> uuids = (ArrayList<String>) customFile.getStringList(sectionKey + ".list");
-        if(!uuids.contains(player.getUniqueId().toString())){
-            uuids.add(player.getUniqueId().toString());
+        if(!uuids.contains(player.toString())){
+            uuids.add(player.toString());
             customFile.set(sectionKey + ".list", uuids);
         } else {
             System.out.println("Error: the player is on the list.");
@@ -73,6 +73,7 @@ public class PlayerManager {
     }
 
     public void setupMember(Team team, UUID player){
+        addUUIDtoArchive(player);
         Member newMember = new Member(team, player);
         OfflinePlayer offPlayer = Bukkit.getOfflinePlayer(player);
         System.out.println(offPlayer.getName());
@@ -81,11 +82,11 @@ public class PlayerManager {
             if(offPlayer.isOnline()){
                 newMember.setOnline(true);
                 membersMap.put(player, newMember);
-                System.out.println("Adding " + offPlayer.getName() + " from the 'onlineMembers' map.");
+                System.out.println("Adding " + offPlayer.getName() + " from the 'members' map. (ONLINE)");
             } else {
                 newMember.setOnline(false);
                 membersMap.put(player, newMember);
-                System.out.println("Adding " + offPlayer.getName() + " to the 'offlineMembers' map.");
+                System.out.println("Adding " + offPlayer.getName() + " to the 'members' map. (OFFLINE)");
             }
         } else {
             System.out.println("Error: newMember is null");
@@ -96,6 +97,7 @@ public class PlayerManager {
         Member member = getMemberByUUID(player);
         if(member != null){
             member.setOnline(true);
+            System.out.println("Putting online to the member: " + player.getName());
         } else {
             System.out.println("Error: this player does not have a member object associated.");
         }
@@ -105,54 +107,11 @@ public class PlayerManager {
         Member member = getMemberByUUID(player);
         if(member != null){
             member.setOnline(false);
+            System.out.println("Putting offline to the member: " + player.getName());
         } else {
             System.out.println("Error: this player does not have a member object associated.");
         }
     }
-
-    /*public void addOnlineMember(Player player){
-        UUID uuidMember = player.getUniqueId();
-        if (getMemberByUUID(player) != null){
-            if(!onlineMembers.containsKey(uuidMember)){
-                onlineMembers.put(uuidMember, getMemberByUUID(player));
-                onlineMembers.get(uuidMember).setOnline(true);
-            } else {
-                System.out.println("Error: 'onlineMembers' does not has a member associated with this player." );
-            }
-            System.out.println("Adding " + player.getName() + " from the 'onlineMembers' map.");
-        } else {
-            System.out.println("Error: member is null, no member is associated with this player.");
-        }
-    }
-
-    public void removeOnlineMember(Player player){
-        UUID uuidMember = player.getUniqueId();
-        onlineMembers.get(uuidMember).setOnline(false);
-        onlineMembers.remove(uuidMember);
-        System.out.println("Removing " + player.getName() + " from the 'onlineMembers' map.");
-    }
-
-    public void addOfflineMember(Player player){
-        UUID uuidMember = player.getUniqueId();
-        if(getMemberByUUID(player) != null){
-            if(!offlineMembers.containsKey(uuidMember)){
-                offlineMembers.put(uuidMember, getMemberByUUID(player));
-                offlineMembers.get(uuidMember).setOnline(false);
-            } else {
-                System.out.println("Error: 'offlineMembers' does not has a member associated with this player." );
-            }
-            System.out.println("Adding " + player.getName() + " from the 'onlineMembers' map.");
-        } else {
-            System.out.println("Error: member is null, no member is associated with this player.");
-        }
-    }
-
-    public void removeOfflineMember(Player player){
-        UUID uuidMember = player.getUniqueId();
-        offlineMembers.get(uuidMember).setOnline(true);
-        offlineMembers.remove(uuidMember);
-        System.out.println("Removing " + player.getName() + " from the 'offlineMembers' map.");
-    }*/
 
     public boolean isOnPlayerList(Player player){ // if is on the array of previous joined members
         if(playerList.contains(player.getUniqueId())){

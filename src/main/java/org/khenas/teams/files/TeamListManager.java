@@ -21,7 +21,6 @@ public class TeamListManager {
     private static final String sectionKey = "team-list";
     private File file;
     private FileConfiguration customFile;
-    private ArrayList<UUID> playerMap = new ArrayList<>();
     private PlayerManager playerManager;
     private static Map<String, Team> teamMap = new HashMap<>();
 
@@ -64,7 +63,6 @@ public class TeamListManager {
                 Team team = new Team(teamName);
                 ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
                 for(String uuid: memberUUIDs){ // loads all the existing UUID from the YML archive to the array
-                    playerMap.add(UUID.fromString(uuid));
                     playerManager.setupMember(team, UUID.fromString(uuid));
                 }
                 String leaderUUID = teamSection.getString("leader");
@@ -83,9 +81,6 @@ public class TeamListManager {
         return teamMap;
     }
 
-    public ArrayList<UUID> getPlayerMap() {
-        return playerMap;
-    }
 
     private void createNoTeam(){
         loadCustomFile();
@@ -179,6 +174,10 @@ public class TeamListManager {
             for(Member member: membersCopy){
                 teamToRemove.removeMember(member);
                 addToTheNoTeam(member);
+                if(member.isOnline()){
+                    Player p = (Player) member.getPlayer();
+                    p.sendMessage("Your team " + ChatColor.RED + teamToRemove.getTeamName() + ChatColor.WHITE + " has been disbanded.");
+                }
             }
             customFile.getConfigurationSection(sectionKey).set(teamToRemove.getTeamName(), null);
             saveCustomFile();
