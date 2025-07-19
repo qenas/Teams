@@ -54,6 +54,7 @@ public class TeamListManager {
         if(customFile.contains(sectionKey)){
             ConfigurationSection section = customFile.getConfigurationSection(sectionKey); //read the .yml file -> get the "team-list" section
             for(String teamName : section.getKeys(false)){
+                System.out.println("Loading " + teamName + " team to the server...");
                 ConfigurationSection teamSection = section.getConfigurationSection(teamName); // team-list -> [team1, team2, ...] (subsections)
                 Team team = new Team(teamName);
                 ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
@@ -61,7 +62,6 @@ public class TeamListManager {
                     playerMap.add(UUID.fromString(uuid));
                 }
                 String leaderUUID = teamSection.getString("leader");
-                System.out.println(leaderUUID);
                 if(!leaderUUID.isEmpty() && !teamName.equals("no-team")){
                     OfflinePlayer leader = Bukkit.getOfflinePlayer(UUID.fromString(leaderUUID));
                     team.setLeader(leader);
