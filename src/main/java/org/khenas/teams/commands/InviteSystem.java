@@ -76,8 +76,7 @@ public class InviteSystem implements CommandExecutor  {
                         Player playerToAccept = invitationManager.getSender(playerTarget);
                         if(playerToAccept != null){
                             teamListManager.addToTeam(playerManager.getMemberByUUID(playerTarget), playerManager.getMemberByUUID(playerToAccept).getTeam());
-                            playerTarget.sendMessage("You have been added to " + ChatColor.RED + teamListManager.getTeamOfPlayer(playerTarget).getTeamName());
-                            invitationManager.getSender(playerTarget).sendMessage("The player " + ChatColor.GREEN + playerTarget.getName() + " accepted your invitation.");
+                            invitationManager.getSender(playerTarget).sendMessage("The player " + ChatColor.GREEN + playerTarget.getName() + ChatColor.WHITE + " accepted your invitation.");
                         } else {
                             playerTarget.sendMessage("The player does not exist or maybe is disconnected.");
                         }

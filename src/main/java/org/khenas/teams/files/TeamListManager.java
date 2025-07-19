@@ -24,7 +24,7 @@ public class TeamListManager {
     private PlayerManager playerManager;
     private static Map<String, Team> teamMap = new HashMap<>();
 
-    public TeamListManager(PlayerManager playerManager) {
+    public void setPlayerManager(PlayerManager playerManager){
         this.playerManager = playerManager;
     }
 
