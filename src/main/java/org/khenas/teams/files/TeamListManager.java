@@ -210,7 +210,39 @@ public class TeamListManager {
         } else {
             System.out.println("Error: the team does not exist on the archive.");
         }
+    }
 
+    public void removeFromTeam(Member member, Team team){
+        loadCustomFile();
+        if(customFile.contains(sectionKey + "." + team.getTeamName())){
+            if(teamMap.containsKey(team.getTeamName())){
+                ConfigurationSection teamSection = customFile.getConfigurationSection(sectionKey + "." + team.getTeamName());
+                Player playerMember = (Player) member.getPlayer();
+                ArrayList<String> teamMembers = (ArrayList<String>) teamSection.getStringList("members");
+                int index = -1;
+                for(int i = 0; i < teamMembers.size(); i++){
+                    if(teamMembers.get(i).equals(playerMember.getUniqueId().toString())){
+                        index = i;
+                    }
+                }
+                if(index > -1){
+                    teamMembers.remove(index);
+                    System.out.println(team.getTeamName() + ": " + teamMembers.toString());
+                    teamSection.set("members", teamMembers);
+                    team.removeMember(member);
+                    reloadCustomFile();
+                    playerMember.sendMessage("You has been kick from: " + ChatColor.GREEN + team.getTeamName());
+                    member.setTeam(getNoTeam());
+                    addToTheNoTeam(member);
+                } else {
+                    System.out.println("The player does not is on the list of members.");
+                }
+            } else {
+                System.out.println("Invalid team or error to load.");
+            }
+        } else {
+            System.out.println("Error: the team does not exist on the archive.");
+        }
     }
 
     /*public void addToTeam(Player leader, Player playerToAdd){

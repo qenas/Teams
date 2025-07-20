@@ -43,7 +43,7 @@ public class InviteSystem implements CommandExecutor  {
             Player playerSender = (Player) sender;
             if(teamListManager.isOnTeam(playerSender)){ // checks if the sender has a valid team (!=noteam)
                 if(teamListManager.getTeamOfPlayer(playerSender).isLeader(playerSender)){ // checks if the sender is the leader of the team
-                    if(args.length > 0){
+                    if(args.length > 0 && args.length == 1){
                         Player playerTarget = Bukkit.getPlayerExact(args[0]);
                         if(!teamListManager.isOnTeam(playerTarget)){ // checks if the target already has a team.
                             invitationManager.addInvite(playerSender, playerTarget);
