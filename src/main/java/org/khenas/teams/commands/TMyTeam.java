@@ -1,6 +1,6 @@
 package org.khenas.teams.commands;
 
-import org.bukkit.ChatColor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -13,9 +13,11 @@ import org.khenas.teams.parts.Team;
 
 public class TMyTeam implements CommandExecutor {
     private PlayerManager playerManager;
+    private TeamListManager teamListManager;
 
-    public TMyTeam(PlayerManager playerManager){
+    public TMyTeam(TeamListManager teamListManager, PlayerManager playerManager){
         this.playerManager = playerManager;
+        this.teamListManager = teamListManager;
     }
 
     @Override
@@ -28,21 +30,35 @@ public class TMyTeam implements CommandExecutor {
         Player player = (Player) sender; //cast the CommandSender to a Player
         Member playerMember = playerManager.getMemberByUUID(player); //converts the Player to a Member type by his UUID
 
-        if(playerMember != null) {
-            Team playerTeam = playerMember.getTeam();
-            if(!playerTeam.equals(TeamListManager.getNoTeam())){
-                player.sendMessage("-------------------- " + ChatColor.RED + ChatColor.RED + playerTeam.getTeamName() + ChatColor.WHITE + " --------------------");
+        if (args.length == 0) { // shows the info of team where he is in
+            if(playerMember != null) {
+                Team playerTeam = playerMember.getTeam();
+                if(!playerTeam.equals(TeamListManager.getNoTeam())){
+                    playerTeam.showTeamInfoToPlayer(player);
+                /*player.sendMessage("-------------------- " + ChatColor.RED + ChatColor.RED + playerTeam.getTeamName() + ChatColor.WHITE + " --------------------");
                 player.sendMessage(ChatColor.YELLOW + "Leader: " + ChatColor.WHITE + playerTeam.getLeader().getName());
                 player.sendMessage(ChatColor.YELLOW + "Members online: " + ChatColor.GREEN + playerTeam.getOnlineMembersStringList());
                 player.sendMessage(ChatColor.YELLOW + "Members offline: " + ChatColor.RED + playerTeam.getOfflineMembersStringList());
-                player.sendMessage(ChatColor.YELLOW + "Number of members: " + ChatColor.WHITE + playerTeam.getMembersCount());
+                player.sendMessage(ChatColor.YELLOW + "Number of members: " + ChatColor.WHITE + playerTeam.getMembersCount());*/
+                } else {
+                    player.sendMessage("You do not have a team, buddy.");
+                }
             } else {
-                player.sendMessage("You do not have a team, buddy.");
+                System.out.println("Error: member does not exist.");
             }
-
-        } else {
-            System.out.println("Error: member does not exist.");
+        } else { // search a team by a his name or a player name and shows that team's info
+            String arg = args[0];
+            if (teamListManager.getTeam(arg) != null){
+                teamListManager.getTeam(arg).showTeamInfoToPlayer(player);
+            } else if (Bukkit.getPlayerExact(arg) != null) {
+                teamListManager.getTeamOfPlayer(Bukkit.getPlayerExact(arg)).showTeamInfoToPlayer(player);
+            } else {
+                player.sendMessage("No team or player was found with that name.");
+            }
         }
+
+
+
 
         return true;
     }

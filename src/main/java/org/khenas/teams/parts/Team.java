@@ -1,4 +1,5 @@
 package org.khenas.teams.parts;
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import java.util.ArrayList;
@@ -105,6 +106,14 @@ public class Team {
         }
 
         return cad.toString();
+    }
+
+    public void showTeamInfoToPlayer(Player player){
+        player.sendMessage("-------------------- " + ChatColor.RED + ChatColor.RED + getTeamName() + ChatColor.WHITE + " --------------------");
+        player.sendMessage(ChatColor.YELLOW + "Leader: " + ChatColor.WHITE + getLeader().getName());
+        player.sendMessage(ChatColor.YELLOW + "Members online: " + ChatColor.GREEN + getOnlineMembersStringList());
+        player.sendMessage(ChatColor.YELLOW + "Members offline: " + ChatColor.RED + getOfflineMembersStringList());
+        player.sendMessage(ChatColor.YELLOW + "Number of members: " + ChatColor.WHITE + getMembersCount());
     }
 
     public boolean equals(Team other){
