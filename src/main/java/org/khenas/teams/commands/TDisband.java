@@ -31,8 +31,8 @@ public class TDisband implements CommandExecutor {
         Member playerMember = playerManager.getMemberByUUID(player);
 
         if(playerMember != null) {
-            Team teamToRemove = playerMember.getTeam();
-            if(!teamToRemove.equals(TeamListManager.getNoTeam())){
+            if(teamListManager.isOnTeam(player)){
+                Team teamToRemove = playerMember.getTeam();
                 if(teamToRemove.isLeader(player)){
                     player.sendMessage("The team " + ChatColor.RED + teamToRemove.getTeamName() + ChatColor.WHITE + " has been deleted successfully.");
                     teamListManager.removeTeamFromTheList(teamToRemove);
@@ -42,6 +42,8 @@ public class TDisband implements CommandExecutor {
             } else {
                 player.sendMessage("You can not use this command because you do not have a team, buddy.");
             }
+        } else {
+            System.out.println("Error to load the object member associated to this player.");
         }
 
         return true;

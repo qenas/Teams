@@ -30,16 +30,19 @@ public class TKick implements CommandExecutor {
         }
 
         Player leader = (Player) sender;
-        Team team = teamListManager.getTeamOfPlayer(leader);
-        if(team != null){
+
+        if(teamListManager.isOnTeam(leader)){
+            Team team = teamListManager.getTeamOfPlayer(leader);
             if(team.isLeader(leader)){
                 if(args.length == 1){
                     OfflinePlayer playerToKick = Bukkit.getOfflinePlayer(args[0]);
-                    if (playerToKick != null) {
+                    if (!team.isLeader((Player) playerToKick) && teamListManager.getTeamOfPlayer(playerToKick).equals(team)) {
                         teamListManager.removeFromTeam(playerManager.getMemberByUUID(playerToKick), team);
                         leader.sendMessage("The player " + ChatColor.RED + playerToKick.getName() + ChatColor.WHITE + " has been kicked from your team.");
+                    } else if (!teamListManager.getTeamOfPlayer(playerToKick).equals(team)){
+                        leader.sendMessage("You can not kick players who are not in your team, buddy.");
                     } else {
-                        System.out.println("Error to load the member of that player.");
+                        leader.sendMessage("You can not kick yourself, use " + ChatColor.RED + "/tdisband " + ChatColor.WHITE + "instead.");
                     }
                 } else {
                     leader.sendMessage("Insert a valid argument (player's name).");
@@ -48,9 +51,8 @@ public class TKick implements CommandExecutor {
                 leader.sendMessage("You are not the leader of your team. The leader is the only who can use this command, brodie.");
             }
         } else {
-            System.out.println("Error to load the team of leader.");
+            leader.sendMessage("You do not have a team, buddy.");
         }
-
 
         return true;
     }

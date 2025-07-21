@@ -68,7 +68,7 @@ public class TeamListManager {
                 String leaderUUID = teamSection.getString("leader");
                 if(!leaderUUID.isEmpty() && !teamName.equals("no-team")){
                     OfflinePlayer leader = Bukkit.getOfflinePlayer(UUID.fromString(leaderUUID));
-                    team.setLeader(leader);
+                    team.setLeader(UUID.fromString(leaderUUID));
                 }
                 teamMap.put(teamName.toLowerCase(), team);
             }
@@ -152,7 +152,7 @@ public class TeamListManager {
             teamSection.set("members", members); //create a subsection on "team-list" named members
             Team team = new Team(teamName);
             team.addMember(member);
-            team.setLeader(leader);
+            team.setLeader(leader.getUniqueId());
             member.setTeam(team);
             teamMap.put(teamName, team);
             saveCustomFile();
@@ -191,7 +191,7 @@ public class TeamListManager {
     public void addToTeam(Member member, Team team){
         loadCustomFile();
         if(customFile.contains(sectionKey + "." + team.getTeamName())){
-            if(teamMap.containsKey(team.getTeamName())){
+            if(teamMap.containsKey(team.getTeamName().toLowerCase())){
                 ConfigurationSection teamSection = customFile.getConfigurationSection(sectionKey + "." + team.getTeamName());
                 ArrayList<String> teamMembers = (ArrayList<String>) teamSection.getStringList("members");
                 teamMembers.add(member.getPlayer().getUniqueId().toString());
@@ -215,33 +215,26 @@ public class TeamListManager {
     public void removeFromTeam(Member member, Team team){
         loadCustomFile();
         if(customFile.contains(sectionKey + "." + team.getTeamName())){
-            if(teamMap.containsKey(team.getTeamName())){
+            if(teamMap.containsKey(team.getTeamName().toLowerCase())){
                 ConfigurationSection teamSection = customFile.getConfigurationSection(sectionKey + "." + team.getTeamName());
                 ArrayList<String> teamMembers = (ArrayList<String>) teamSection.getStringList("members");
-                boolean isOnTheTeam = false;
-                int index = 0;
-                for(int i = 0; i < teamMembers.size(); i++){
-                    if(teamMembers.get(i).equals(member.getUUID().toString())){
-                        isOnTheTeam = true;
-                        index = i;
+                for(String memberUUID: teamMembers){
+                    if(memberUUID.equals(member.getUUID().toString())){
+                        teamMembers.remove(memberUUID);
+                        break;
                     }
                 }
-                if(isOnTheTeam){
-                    teamMembers.remove(index);
-                    System.out.println(team.getTeamName() + ": " + teamMembers.toString());
-                    teamSection.set("members", teamMembers);
-                    team.removeMember(member);
-                    reloadCustomFile();
-                    if (member.isOnline()) {
-                        Player playerOnline = (Player) member.getPlayer().getPlayer();
-                        playerOnline.sendMessage("You has been kick from: " + ChatColor.GREEN + team.getTeamName());
-                    }
-                    member.setTeam(getNoTeam());
-                    addToTheNoTeam(member);
-                    teamMap.put(team.getTeamName().toLowerCase(), team);
-                } else {
-                    System.out.println("The player does not is on the list of members.");
+                System.out.println(team.getTeamName() + ": " + teamMembers.toString());
+                teamSection.set("members", teamMembers);
+                team.removeMember(member);
+                reloadCustomFile();
+                if (member.isOnline()) {
+                    Player playerOnline = (Player) member.getPlayer();
+                    playerOnline.sendMessage("You has been kick from: " + ChatColor.GREEN + team.getTeamName());
                 }
+                member.setTeam(getNoTeam());
+                addToTheNoTeam(member);
+                teamMap.put(team.getTeamName().toLowerCase(), team);
             } else {
                 System.out.println("Invalid team or error to load.");
             }

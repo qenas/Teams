@@ -35,11 +35,6 @@ public class TTeam implements CommandExecutor {
                 Team playerTeam = playerMember.getTeam();
                 if(!playerTeam.equals(TeamListManager.getNoTeam())){
                     playerTeam.showTeamInfoToPlayer(player);
-                /*player.sendMessage("-------------------- " + ChatColor.RED + ChatColor.RED + playerTeam.getTeamName() + ChatColor.WHITE + " --------------------");
-                player.sendMessage(ChatColor.YELLOW + "Leader: " + ChatColor.WHITE + playerTeam.getLeader().getName());
-                player.sendMessage(ChatColor.YELLOW + "Members online: " + ChatColor.GREEN + playerTeam.getOnlineMembersStringList());
-                player.sendMessage(ChatColor.YELLOW + "Members offline: " + ChatColor.RED + playerTeam.getOfflineMembersStringList());
-                player.sendMessage(ChatColor.YELLOW + "Number of members: " + ChatColor.WHITE + playerTeam.getMembersCount());*/
                 } else {
                     player.sendMessage("You do not have a team, buddy.");
                 }
