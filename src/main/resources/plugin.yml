@@ -38,3 +38,8 @@ commands:
     usage: "/tdeny"
     permission: teams.command.member
     permission-message: "You do not have permission to use this command."
+  tkick:
+    description: "Kick a player of a team."
+    usage: "/tkick [playername]"
+    permission: teams.command.member
+    permission-message: "You do not have permission to use this command."

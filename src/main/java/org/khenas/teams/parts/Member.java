@@ -20,6 +20,10 @@ public class Member {
         this.player = player;
     }
 
+    public UUID getUUID(){
+        return player;
+    }
+
     public OfflinePlayer getPlayer(){
         return Bukkit.getOfflinePlayer(player);
     }

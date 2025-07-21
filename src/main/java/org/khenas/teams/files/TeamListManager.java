@@ -204,6 +204,7 @@ public class TeamListManager {
                 playerMember.sendMessage("You has been added to: " + ChatColor.GREEN + team.getTeamName());
                 member.setTeam(team);
                 removeFromTheNoTeam(member);
+                teamMap.put(team.getTeamName().toLowerCase(), team);
             } else {
                 System.out.println("Invalid team or error to load.");
             }
@@ -217,23 +218,28 @@ public class TeamListManager {
         if(customFile.contains(sectionKey + "." + team.getTeamName())){
             if(teamMap.containsKey(team.getTeamName())){
                 ConfigurationSection teamSection = customFile.getConfigurationSection(sectionKey + "." + team.getTeamName());
-                Player playerMember = (Player) member.getPlayer();
                 ArrayList<String> teamMembers = (ArrayList<String>) teamSection.getStringList("members");
-                int index = -1;
+                boolean isOnTheTeam = false;
+                int index = 0;
                 for(int i = 0; i < teamMembers.size(); i++){
-                    if(teamMembers.get(i).equals(playerMember.getUniqueId().toString())){
+                    if(teamMembers.get(i).equals(member.getUUID().toString())){
+                        isOnTheTeam = true;
                         index = i;
                     }
                 }
-                if(index > -1){
+                if(isOnTheTeam){
                     teamMembers.remove(index);
                     System.out.println(team.getTeamName() + ": " + teamMembers.toString());
                     teamSection.set("members", teamMembers);
                     team.removeMember(member);
                     reloadCustomFile();
-                    playerMember.sendMessage("You has been kick from: " + ChatColor.GREEN + team.getTeamName());
+                    if (member.isOnline()) {
+                        Player playerOnline = (Player) member.getPlayer().getPlayer();
+                        playerOnline.sendMessage("You has been kick from: " + ChatColor.GREEN + team.getTeamName());
+                    }
                     member.setTeam(getNoTeam());
                     addToTheNoTeam(member);
+                    teamMap.put(team.getTeamName().toLowerCase(), team);
                 } else {
                     System.out.println("The player does not is on the list of members.");
                 }

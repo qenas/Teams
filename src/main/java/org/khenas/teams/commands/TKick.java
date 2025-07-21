@@ -2,6 +2,7 @@ package org.khenas.teams.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,9 +34,13 @@ public class TKick implements CommandExecutor {
         if(team != null){
             if(team.isLeader(leader)){
                 if(args.length == 1){
-                    Player playerToKick = Bukkit.getPlayerExact(args[0]);
-                    teamListManager.removeFromTeam(playerManager.getMemberByUUID(playerToKick), team);
-                    leader.sendMessage("The player " + ChatColor.RED + playerToKick.getName() + ChatColor.WHITE + " has been kicked from your team.");
+                    OfflinePlayer playerToKick = Bukkit.getOfflinePlayer(args[0]);
+                    if (playerToKick != null) {
+                        teamListManager.removeFromTeam(playerManager.getMemberByUUID(playerToKick), team);
+                        leader.sendMessage("The player " + ChatColor.RED + playerToKick.getName() + ChatColor.WHITE + " has been kicked from your team.");
+                    } else {
+                        System.out.println("Error to load the member of that player.");
+                    }
                 } else {
                     leader.sendMessage("Insert a valid argument (player's name).");
                 }
