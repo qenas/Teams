@@ -11,11 +11,11 @@ import org.khenas.teams.files.TeamListManager;
 import org.khenas.teams.parts.Member;
 import org.khenas.teams.parts.Team;
 
-public class TMyTeam implements CommandExecutor {
+public class TTeam implements CommandExecutor {
     private PlayerManager playerManager;
     private TeamListManager teamListManager;
 
-    public TMyTeam(TeamListManager teamListManager, PlayerManager playerManager){
+    public TTeam(TeamListManager teamListManager, PlayerManager playerManager){
         this.playerManager = playerManager;
         this.teamListManager = teamListManager;
     }
