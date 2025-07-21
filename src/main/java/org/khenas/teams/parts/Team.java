@@ -89,6 +89,16 @@ public class Team {
         return cad.toString();
     }
 
+    public int getOnlineCount(){
+        int i = 0;
+        for(Member member: members){
+            if(member.isOnline()){
+                i++;
+            }
+        }
+        return i;
+    }
+
     public String getOfflineMembersStringList(){
         StringBuilder cad = new StringBuilder();
         for(Member member: getMembers()){
@@ -106,6 +116,16 @@ public class Team {
         }
 
         return cad.toString();
+    }
+
+    public int getOfflineCount(){
+        int i = 0;
+        for(Member member: members){
+            if(!member.isOnline()){
+                i++;
+            }
+        }
+        return i;
     }
 
     public void showTeamInfoToPlayer(Player player){

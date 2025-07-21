@@ -73,7 +73,6 @@ public class PlayerManager {
     }
 
     public void setupMember(Team team, UUID player){
-        addUUIDtoArchive(player);
         Member newMember = new Member(team, player);
         OfflinePlayer offPlayer = Bukkit.getOfflinePlayer(player);
         System.out.println(offPlayer.getName());

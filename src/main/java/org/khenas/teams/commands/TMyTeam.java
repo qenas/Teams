@@ -49,9 +49,13 @@ public class TMyTeam implements CommandExecutor {
         } else { // search a team by a his name or a player name and shows that team's info
             String arg = args[0];
             if (teamListManager.getTeam(arg) != null){
-                teamListManager.getTeam(arg).showTeamInfoToPlayer(player);
-            } else if (Bukkit.getPlayerExact(arg) != null) {
-                teamListManager.getTeamOfPlayer(Bukkit.getPlayerExact(arg)).showTeamInfoToPlayer(player);
+                if(teamListManager.getTeam(arg).equals(TeamListManager.getNoTeam())){
+                    player.sendMessage("The player does not have a team.");
+                } else {
+                    teamListManager.getTeam(arg).showTeamInfoToPlayer(player);
+                }
+            } else if (Bukkit.getOfflinePlayer(arg) != null) {
+                teamListManager.getTeamOfPlayer(Bukkit.getOfflinePlayer(arg)).showTeamInfoToPlayer(player);
             } else {
                 player.sendMessage("No team or player was found with that name.");
             }
