@@ -3,6 +3,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.A;
+
+import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -117,6 +120,16 @@ public class Team {
             }
         }
         return i;
+    }
+
+    public ArrayList<Member> getOnlineMembers (){
+        ArrayList<Member> aux = new ArrayList<>();
+        for(Member member: members){
+            if (member.isOnline()){
+                aux.add(member);
+            }
+        }
+        return aux;
     }
 
     public void showTeamInfoToPlayer(Player player){

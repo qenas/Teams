@@ -226,14 +226,18 @@ public class TeamListManager {
                 }
                 System.out.println(team.getTeamName() + ": " + teamMembers.toString());
                 teamSection.set("members", teamMembers);
-                team.removeMember(member);
                 reloadCustomFile();
+                team.removeMember(member);
+                member.setTeam(getNoTeam());
+                addToTheNoTeam(member);
                 if (member.isOnline()) {
                     Player playerOnline = (Player) member.getPlayer();
                     playerOnline.sendMessage("You has been kick from: " + ChatColor.GREEN + team.getTeamName());
                 }
-                member.setTeam(getNoTeam());
-                addToTheNoTeam(member);
+                for(Member memberOnline: team.getOnlineMembers()){
+                    Player playerOnline = (Player) member.getPlayer();
+                    playerOnline.sendMessage(ChatColor.YELLOW + "The player " + ChatColor.GREEN + member.getPlayer().getName() + ChatColor.YELLOW + " leaved the team.");
+                }
                 teamMap.put(team.getTeamName().toLowerCase(), team);
             } else {
                 System.out.println("Invalid team or error to load.");
