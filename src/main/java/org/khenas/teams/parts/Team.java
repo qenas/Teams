@@ -24,7 +24,7 @@ public class Team {
         this.leader = leader;
     }
 
-    public Player getLeader(){
+    public OfflinePlayer getLeader(){
         return leader.getPlayer();
     }
 

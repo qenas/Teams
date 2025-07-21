@@ -55,7 +55,15 @@ public class TTeam implements CommandExecutor {
                     teamListManager.getTeam(arg).showTeamInfoToPlayer(player);
                 }
             } else if (Bukkit.getOfflinePlayer(arg) != null) {
-                teamListManager.getTeamOfPlayer(Bukkit.getOfflinePlayer(arg)).showTeamInfoToPlayer(player);
+                if(playerManager.isOnPlayerList(Bukkit.getOfflinePlayer(arg))){
+                    if(teamListManager.getTeamOfPlayer(Bukkit.getOfflinePlayer(arg)).equals(TeamListManager.getNoTeam())){
+                        player.sendMessage("The player does not have a team.");
+                    } else {
+                        teamListManager.getTeamOfPlayer(Bukkit.getOfflinePlayer(arg)).showTeamInfoToPlayer(player);
+                    }
+                } else {
+                    player.sendMessage("The player never joined to the server.");
+                }
             } else {
                 player.sendMessage("No team or player was found with that name.");
             }

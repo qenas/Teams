@@ -1,5 +1,5 @@
 org\khenas\teams\commands\TDisband.class
-org\khenas\teams\commands\TMyTeam.class
+org\khenas\teams\commands\TTeam.class
 org\khenas\teams\commands\InviteSystem.class
 org\khenas\teams\events\PlayerConnection.class
 org\khenas\teams\Teams.class

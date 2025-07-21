@@ -18,9 +18,9 @@ commands:
     usage:  "/tlist"
     permission: teams.command.member
     permission-message: "You do not have permission to use this command."
-  tmyteam:
-    description: "Show the team of the invocator's command"
-    usage: "/tmyteam"
+  tteam:
+    description: "Show the team of the invocator's command or another player."
+    usage: "/tmyteam [arg]"
     permission: teams.command.member
     permission-message: "You do not have permission to use this command."
   tinvite:

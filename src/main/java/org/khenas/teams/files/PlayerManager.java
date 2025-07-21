@@ -112,7 +112,7 @@ public class PlayerManager {
         }
     }
 
-    public boolean isOnPlayerList(Player player){ // if is on the array of previous joined members
+    public boolean isOnPlayerList(OfflinePlayer player){ // if is on the array of previous joined members
         if(playerList.contains(player.getUniqueId())){
             return true;
         }
