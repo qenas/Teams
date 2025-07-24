@@ -18,16 +18,18 @@ public class InvitationManager {
         return timerCooldown / 1000;
     }
 
-    public boolean isExpired(long date) {
-        return System.currentTimeMillis() - date >= 60000;
+    public boolean isInvitationExpired(Player target) {
+        return System.currentTimeMillis() - cooldown.get(target.getUniqueId()) >= 60000;
     }
 
     public void addInvite(Player sender, Player target){
         invitations.put(target.getUniqueId(), sender.getUniqueId());
+        cooldown.put(target.getUniqueId(), System.currentTimeMillis()); // load the cooldown for the player target with the time it was created
     }
 
     public void removeInvite(Player target){
         invitations.remove(target.getUniqueId());
+        cooldown.put(target.getUniqueId(), System.currentTimeMillis());
     }
 
     public boolean hasInvite(Player target){

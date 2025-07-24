@@ -31,6 +31,7 @@ public final class Teams extends JavaPlugin {
         getCommand("taccept").setExecutor(inviteSystem);
         getCommand("tdeny").setExecutor(inviteSystem);
         getCommand("tkick").setExecutor(new TKick(teamListManager, playerManager));
+        getCommand("tleave").setExecutor(new TLeave(teamListManager, playerManager));
         getCommand("tlist").setExecutor(new TList(teamListManager));
         getCommand("tcreate").setExecutor(new TCreate(teamListManager, playerManager));
         getCommand("tdisband").setExecutor(new TDisband(teamListManager, playerManager));

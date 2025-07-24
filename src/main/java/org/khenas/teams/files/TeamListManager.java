@@ -236,7 +236,7 @@ public class TeamListManager {
                 }
                 for(Member memberOnline: team.getOnlineMembers()){
                     Player playerOnline = (Player) member.getPlayer();
-                    playerOnline.sendMessage(ChatColor.YELLOW + "The player " + ChatColor.GREEN + member.getPlayer().getName() + ChatColor.YELLOW + " leaved the team.");
+                    playerOnline.sendMessage(ChatColor.YELLOW + "The player " + ChatColor.GREEN + member.getPlayer().getName() + ChatColor.YELLOW + " left the team.");
                 }
                 teamMap.put(team.getTeamName().toLowerCase(), team);
             } else {
