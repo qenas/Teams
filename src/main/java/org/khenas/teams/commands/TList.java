@@ -29,7 +29,7 @@ public class TList implements CommandExecutor {
         player.sendMessage(ChatColor.RED + "-----TEAM LIST-----");
         for(Team team: teamList){
             if(!team.getTeamName().equals("no-team")) {
-                player.sendMessage(ChatColor.DARK_GREEN + team.getTeamName() + ChatColor.WHITE + ". Members online: " + team.getOnlineCount());
+                player.sendMessage(ChatColor.DARK_GREEN + team.getTeamName() + ChatColor.WHITE + ". Members online: " + team.getOnlineCount() + "/" + team.getMembersCount());
             }
         }
         return true;

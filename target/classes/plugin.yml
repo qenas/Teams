@@ -43,3 +43,8 @@ commands:
     usage: "/tkick [playername]"
     permission: teams.command.member
     permission-message: "You do not have permission to use this command."
+  tleave:
+    description: "Allows a player leave his team."
+    usage: "/tleave"
+    permission: teams.command.member
+    permission-message: "You do not have permission to use this command."

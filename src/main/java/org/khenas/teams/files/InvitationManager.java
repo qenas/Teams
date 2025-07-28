@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class InvitationManager {
     private static long timerCooldown = 60000;
-    private Map<UUID, Long> cooldown;
+    private Map<UUID, Long> cooldown = new HashMap<>();
     private Map<UUID, UUID> invitations = new HashMap<>();
             //uuid1 = target, uuid2 = sender
 

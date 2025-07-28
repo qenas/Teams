@@ -2,6 +2,7 @@ package org.khenas.teams;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.khenas.teams.commands.*;
+import org.khenas.teams.events.PVPSystem;
 import org.khenas.teams.events.PlayerConnection;
 import org.khenas.teams.files.InvitationManager;
 import org.khenas.teams.files.PlayerManager;
@@ -25,6 +26,7 @@ public final class Teams extends JavaPlugin {
         teamListManager.setup();
         //events
         getServer().getPluginManager().registerEvents(new PlayerConnection(teamListManager, playerManager), this);
+        getServer().getPluginManager().registerEvents(new PVPSystem(teamListManager, playerManager), this);
         //commands
         InviteSystem inviteSystem = new InviteSystem(invitationManager, teamListManager, playerManager);
         getCommand("tinvite").setExecutor(inviteSystem);

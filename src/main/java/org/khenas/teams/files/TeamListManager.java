@@ -154,7 +154,7 @@ public class TeamListManager {
             team.addMember(member);
             team.setLeader(leader.getUniqueId());
             member.setTeam(team);
-            teamMap.put(teamName, team);
+            teamMap.put(teamName.toLowerCase(), team);
             saveCustomFile();
             removeFromTheNoTeam(member);
             leader.sendMessage(ChatColor.GREEN + "Team has been created successfully.");
@@ -162,7 +162,7 @@ public class TeamListManager {
         } else {
             leader.sendMessage(ChatColor.RED + "Unavailable team name. Try with another name.");
         }
-        System.out.println("The team '" + teamName + " has been add successfully to the list.");
+        System.out.println("The team '" + teamName + "' has been add successfully to the list.");
         reloadCustomFile();
     }
 
@@ -184,7 +184,7 @@ public class TeamListManager {
         } else {
             System.out.println("Error: the team does not exist on the archive.");
         }
-        System.out.println("The team '" + teamToRemove.getTeamName() + " has been remove successfully from the list.");
+        System.out.println("The team '" + teamToRemove.getTeamName() + "' has been remove successfully from the list.");
         reloadCustomFile();
     }
 
@@ -203,6 +203,10 @@ public class TeamListManager {
                 playerMember.sendMessage("You has been added to: " + ChatColor.GREEN + team.getTeamName());
                 member.setTeam(team);
                 removeFromTheNoTeam(member);
+                for(Member memberOnline: team.getOnlineMembers()){
+                    Player playerOnline = (Player) memberOnline.getPlayer();
+                    playerOnline.sendMessage(ChatColor.YELLOW + "The player " + ChatColor.GREEN + member.getPlayer().getName() + ChatColor.YELLOW + " has been added to the team.");
+                }
                 teamMap.put(team.getTeamName().toLowerCase(), team);
             } else {
                 System.out.println("Invalid team or error to load.");
@@ -235,7 +239,7 @@ public class TeamListManager {
                     playerOnline.sendMessage("You has been kick from: " + ChatColor.GREEN + team.getTeamName());
                 }
                 for(Member memberOnline: team.getOnlineMembers()){
-                    Player playerOnline = (Player) member.getPlayer();
+                    Player playerOnline = (Player) memberOnline.getPlayer();
                     playerOnline.sendMessage(ChatColor.YELLOW + "The player " + ChatColor.GREEN + member.getPlayer().getName() + ChatColor.YELLOW + " left the team.");
                 }
                 teamMap.put(team.getTeamName().toLowerCase(), team);
@@ -277,7 +281,7 @@ public class TeamListManager {
                 ArrayList<String> memberUUIDs = (ArrayList<String>) teamSection.getStringList("members");
                 for(int i = 0; i < memberUUIDs.size(); i++) {
                     if(playerUUID.equals(memberUUIDs.get(i))){
-                        return getTeam(teamName); // true: player have team.
+                        return getTeam(teamName.toLowerCase()); // true: player have team.
                     }
                 }
             }

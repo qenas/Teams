@@ -26,7 +26,7 @@ public class InviteSystem implements CommandExecutor  {
         this.invitationManager = invitationManager;
         this.playerManager = playerManager;
         this.teamListManager = teamListManager;
-        this.cooldown = new HashMap<>();
+
     }
 
 
@@ -66,49 +66,59 @@ public class InviteSystem implements CommandExecutor  {
         }
 
         //taccept
-        if(command.getName().equalsIgnoreCase(tAccept) && args.length == 0){
+        if(command.getName().equalsIgnoreCase(tAccept) && args.length == 1){
             Player playerTarget = (Player) sender;
-            if(invitationManager.hasInvite(playerTarget)){
-                if (!invitationManager.isInvitationExpired(playerTarget)){
-                    Player playerToAccept = invitationManager.getSender(playerTarget);
-                    if(playerToAccept != null){
-                        teamListManager.addToTeam(playerManager.getMemberByUUID(playerTarget), playerManager.getMemberByUUID(playerToAccept).getTeam());
-                        invitationManager.getSender(playerTarget).sendMessage("The player " + ChatColor.GREEN + playerTarget.getName() + ChatColor.WHITE + " accepted your invitation.");
+            Player playerSender = Bukkit.getPlayerExact(args[0]);
+            if (invitationManager.getSender(playerTarget).equals(playerSender)){
+                if(invitationManager.hasInvite(playerTarget)){
+                    if (!invitationManager.isInvitationExpired(playerTarget)){
+                        Player playerToAccept = invitationManager.getSender(playerTarget);
+                        if(playerToAccept != null){
+                            teamListManager.addToTeam(playerManager.getMemberByUUID(playerTarget), playerManager.getMemberByUUID(playerToAccept).getTeam());
+                            invitationManager.getSender(playerTarget).sendMessage("The player " + ChatColor.GREEN + playerTarget.getName() + ChatColor.WHITE + " accepted your invitation.");
+                        } else {
+                            playerTarget.sendMessage("The player does not exist or maybe is disconnected.");
+                        }
+                        invitationManager.removeInvite(playerTarget);
                     } else {
-                        playerTarget.sendMessage("The player does not exist or maybe is disconnected.");
+                        playerTarget.sendMessage("The time to accept the invitation has passed away.");
+                        invitationManager.getSender(playerTarget).sendMessage("The timer for the player " + playerTarget.getName() + " to accept your invitation has passed away.");
+                        invitationManager.removeInvite(playerTarget);
                     }
-                    invitationManager.removeInvite(playerTarget);
                 } else {
-                    playerTarget.sendMessage("The timer to accept the invitation has passed away.");
-                    invitationManager.getSender(playerTarget).sendMessage("The timer for the player " + playerTarget.getName() + " to accept your invitation has passed away.");
-                    invitationManager.removeInvite(playerTarget);
+                    playerTarget.sendMessage("You do not have any pending invitation, mate.");
                 }
             } else {
-                playerTarget.sendMessage("You do not have any pending invitation, mate.");
+                playerTarget.sendMessage("That player does not invite you to his team.");
             }
             return true;
         }
 
         //tdeny
-        if(command.getName().equalsIgnoreCase(tDeny) && args.length == 0){
+        if(command.getName().equalsIgnoreCase(tDeny) && args.length == 1){
             Player playerTarget = (Player) sender;
-            if(invitationManager.hasInvite(playerTarget)){
-                if (!invitationManager.isInvitationExpired(playerTarget)){
-                    Player playerToDeny = invitationManager.getSender(playerTarget);
-                    if(playerToDeny != null){
-                        playerToDeny.sendMessage(ChatColor.GREEN + playerTarget.getName() + ChatColor.WHITE + " has declined your invitation, mate.");
-                        playerTarget.sendMessage("You declined the invitation for " + ChatColor.RED + teamListManager.getTeamOfPlayer(playerToDeny).getTeamName() + ".");
+            Player playerSender = Bukkit.getPlayerExact(args[0]);
+            if (invitationManager.getSender(playerTarget).equals(playerSender)){
+                if(invitationManager.hasInvite(playerTarget)){
+                    if (!invitationManager.isInvitationExpired(playerTarget)){
+                        Player playerToDeny = invitationManager.getSender(playerTarget);
+                        if(playerToDeny != null){
+                            playerToDeny.sendMessage(ChatColor.GREEN + playerTarget.getName() + ChatColor.WHITE + " has declined your invitation, mate.");
+                            playerTarget.sendMessage("You declined the invitation for " + ChatColor.RED + teamListManager.getTeamOfPlayer(playerToDeny).getTeamName() + ".");
+                        } else {
+                            playerTarget.sendMessage("The player does not exist or maybe is disconnected.");
+                        }
+                        invitationManager.removeInvite(playerTarget);
                     } else {
-                        playerTarget.sendMessage("The player does not exist or maybe is disconnected.");
+                        playerTarget.sendMessage("The time to accept the invitation has passed away.");
+                        invitationManager.getSender(playerTarget).sendMessage("The timer for the player " + playerTarget.getName() + " to accept your invitation has passed away.");
+                        invitationManager.removeInvite(playerTarget);
                     }
-                    invitationManager.removeInvite(playerTarget);
                 } else {
-                    playerTarget.sendMessage("The timer to accept the invitation has passed away.");
-                    invitationManager.getSender(playerTarget).sendMessage("The timer for the player " + playerTarget.getName() + " to accept your invitation has passed away.");
-                    invitationManager.removeInvite(playerTarget);
+                    playerTarget.sendMessage("You do not have any pending invitation, mate.");
                 }
             } else {
-                playerTarget.sendMessage("You do not have any pending invitation, mate.");
+                playerTarget.sendMessage("That player does not invite you to his team.");
             }
             return true;
         }

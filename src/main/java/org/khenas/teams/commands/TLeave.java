@@ -23,7 +23,7 @@ public class TLeave implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if(!(sender instanceof Player)){
             sender.sendMessage("Command only available for real players.");
-            return true;
+            return false;
         }
 
         Player player = (Player) sender;
@@ -40,6 +40,6 @@ public class TLeave implements CommandExecutor {
 
 
 
-        return false;
+        return true;
     }
 }

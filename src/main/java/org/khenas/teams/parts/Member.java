@@ -44,7 +44,7 @@ public class Member {
         return team;
     }
 
-    public boolean isOnTheSameTeam(Member player){
+    public boolean isTeammate(Member player){
         return team.getTeamName().equals(player.getTeam().getTeamName());
     }
 
