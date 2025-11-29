@@ -1,22 +1,8 @@
-Copyright (c) 2025 qenas
+## License
 
-Permission is hereby granted to any person to use, modify, and distribute
-this software and its source code for personal or non-commercial purposes,
-provided that the following conditions are met:
+This plugin is released under a Non-Commercial License.
 
-1. This software may not be used, sold, or distributed for commercial
-   purposes without the express written permission of the copyright holder.
+You are free to use, modify, and share this software as long as it is not used
+for any commercial purpose without explicit written permission from the author.
 
-2. Any modified versions of this software must include clear attribution to
-   the original author and a link to the original repository.
-
-3. This license must remain included with all copies or substantial portions
-   of the software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+For full details, please read the LICENSE file included in this repository.
