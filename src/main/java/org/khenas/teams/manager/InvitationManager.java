@@ -1,4 +1,4 @@
-package org.khenas.teams.files;
+package org.khenas.teams.manager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

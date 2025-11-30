@@ -3,17 +3,20 @@ package org.khenas.teams.parts;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.khenas.teams.manager.ChatInterface;
 
 import java.util.UUID;
 
-public class Member {
+public class Member implements ChatInterface {
     private Team team;
     private UUID player;
     private boolean online;
+    private String chat;
 
     public Member(Team team, UUID player){
         this.team = team;
         this.player = player;
+        this.chat = ChatInterface.globalChat;
     }
 
     public void setPlayer(UUID player){
@@ -43,6 +46,15 @@ public class Member {
     public Team getTeam(){
         return team;
     }
+
+    public String getChat(){
+        return this.chat;
+    }
+
+    public void setChat(String key) {
+        this.chat = key;
+    }
+
 
     public boolean isTeammate(Member player){
         return team.getTeamName().equals(player.getTeam().getTeamName());

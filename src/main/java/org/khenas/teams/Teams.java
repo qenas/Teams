@@ -4,15 +4,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.khenas.teams.commands.*;
 import org.khenas.teams.events.PVPSystem;
 import org.khenas.teams.events.PlayerConnection;
-import org.khenas.teams.files.InvitationManager;
-import org.khenas.teams.files.PlayerManager;
-import org.khenas.teams.files.TeamListManager;
+import org.khenas.teams.manager.InvitationManager;
+import org.khenas.teams.manager.PlayerManager;
+import org.khenas.teams.manager.TeamListManager;
+import org.khenas.teams.manager.ChatManager;
 
 
 public final class Teams extends JavaPlugin {
     private PlayerManager playerManager = new PlayerManager();
     private TeamListManager teamListManager = new TeamListManager();
     private InvitationManager invitationManager = new InvitationManager();
+    private ChatManager chatManager = new ChatManager();
 
     @Override
     public void onEnable() {
@@ -24,6 +26,7 @@ public final class Teams extends JavaPlugin {
         playerManager.setup();
         teamListManager.setPlayerManager(playerManager);
         teamListManager.setup();
+        chatManager.setupChatManager(teamListManager.getTeamMap());
         //events
         getServer().getPluginManager().registerEvents(new PlayerConnection(teamListManager, playerManager), this);
         getServer().getPluginManager().registerEvents(new PVPSystem(teamListManager, playerManager), this);

@@ -6,8 +6,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.khenas.teams.files.PlayerManager;
-import org.khenas.teams.files.TeamListManager;
+import org.khenas.teams.manager.PlayerManager;
+import org.khenas.teams.manager.TeamListManager;
 import org.khenas.teams.parts.Team;
 
 

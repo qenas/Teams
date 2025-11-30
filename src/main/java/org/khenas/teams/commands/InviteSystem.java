@@ -7,13 +7,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import org.khenas.teams.files.InvitationManager;
-import org.khenas.teams.files.PlayerManager;
-import org.khenas.teams.files.TeamListManager;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import org.khenas.teams.manager.InvitationManager;
+import org.khenas.teams.manager.PlayerManager;
+import org.khenas.teams.manager.TeamListManager;
 
 public class InviteSystem implements CommandExecutor  {
     private static final String tAccept = "taccept";
